@@ -8,7 +8,7 @@ from pathlib import Path
 #  1. a common prefix
 __dials_version_format = "DIALS %s"
 #  2. the most recent annotated git tag (or failing that: a default string)
-__dials_version_default = "3.dev"
+__dials_version_default = "__DIALS_RELEASE__VERSION__"
 #  3. a dash followed by the number of commits since that tag
 #  4. a dash followed by a lowercase 'g' and the current commit id
 
