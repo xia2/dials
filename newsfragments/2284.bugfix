@@ -1,1 +1,1 @@
-``dials.scale``: Catch edge-case crash when making summary stats table
+``dials.scale``: Catch rare crash when making summary stats table.

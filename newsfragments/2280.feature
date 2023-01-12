@@ -1,1 +1,1 @@
-`dials.merge`: allow exclude_images syntax as in `dials.scale`
+``dials.merge``: Allow ``exclude_images=`` parameter, as in ``dials.scale``.

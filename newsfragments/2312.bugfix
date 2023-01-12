@@ -1,1 +1,1 @@
-``dials.scale``: Fix crash when scaling against reference and some datasets removed during scaling
+``dials.scale``: Fix crash when scaling against reference, and some datasets were removed during scaling.

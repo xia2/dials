@@ -1,1 +1,1 @@
-`dials.stills_process`: adds suppressed_logging option, and minimial progress feedback 
+``dials.stills_process``: Adds ``suppressed_logging=`` option, and minimial progress feedback.

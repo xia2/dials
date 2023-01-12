@@ -1,1 +1,1 @@
-Allow `remove_on_experiment_identifiers` from an empty `flex.reflection_table`
+Allow ``reflection_table.remove_on_experiment_identifiers()` for an empty ``flex.reflection_table``. Thanks to `Daniel Tchoń <https://github.com/Baharis>`_ for the contribution.

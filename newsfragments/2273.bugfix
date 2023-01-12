@@ -1,1 +1,1 @@
-``dials.import``: Fix convert_stills_to_sequences option for h5 data formats
+``dials.import``: Fix ``convert_stills_to_sequences=`` option for h5 data formats.
