@@ -1,1 +1,1 @@
-Fixed an incorrect print statement that was reporting the number of clusters produced by dials.cluster_unit_cell (over and over) rather than the number of lattices in each cluster.
+``dials.cluster_unit_cell``: Correctly report the number of lattices in each cluster, instead of the number of clusters.
