@@ -23,11 +23,7 @@ if not env_etc.no_boost_python and hasattr(env_etc, "boost_adaptbx_include"):
         env_etc.dxtbx_include,
         env_etc.dials_include,
     ]
-    # following lines can be removed once Python2.7 compatibility is dropped
-    msgpack = os.path.join(os.path.dirname(libtbx.env.dist_path("dials")), "msgpack-3.1.1", "include")
-    if os.path.exists(str(msgpack)):
-        include_paths.append(msgpack)
-    ########################################################################
+
     if libtbx.env.build_options.use_conda:
         boost_python = get_boost_library_with_python_version(
             "boost_python", env_etc.conda_libpath
@@ -41,6 +37,17 @@ if not env_etc.no_boost_python and hasattr(env_etc, "boost_adaptbx_include"):
         LIBS=env_etc.libm
         + ["scitbx_boost_python", boost_python, "boost_thread", "cctbx"],
     )
+
+    # Fix the build environment so that it doesn't break on modern C++
+    for path in list(env["CPPPATH"]):
+        if "msvc9.0_include" in path:
+            env["CPPPATH"].remove(path)
+
+    # Fix compilation errors on windows, caused by function redefinition
+    # See: https://github.com/boostorg/system/issues/32#issuecomment-462912013
+    if env_etc.compiler == "win32_cl":
+        env.Append(CPPDEFINES="HAVE_SNPRINTF")
+
     env.SConscript("src/dials/model/SConscript", exports={"env": env})
     env.SConscript("src/dials/array_family/SConscript", exports={"env": env})
     env.SConscript("src/dials/algorithms/SConscript", exports={"env": env})

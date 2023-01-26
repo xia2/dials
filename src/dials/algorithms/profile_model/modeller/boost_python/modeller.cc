@@ -8,6 +8,7 @@
  *  This code is distributed under the BSD license, a copy of which is
  *  included in the root directory of this package.
  */
+#include <memory>
 #include <boost/python.hpp>
 #include <boost/python/def.hpp>
 #include <iostream>
@@ -33,7 +34,7 @@ namespace dials { namespace algorithms { namespace boost_python {
       this->get_override("validate")(reflections);
     }
 
-    void accumulate(boost::shared_ptr<ProfileModellerIface> other) {
+    void accumulate(std::shared_ptr<ProfileModellerIface> other) {
       this->get_override("accumulate")(other);
     }
 
@@ -101,14 +102,14 @@ namespace dials { namespace algorithms { namespace boost_python {
       DIALS_ASSERT(boost::python::len(state) == 1);
       boost::python::list result = extract<boost::python::list>(state[0]);
       for (std::size_t i = 0; i < boost::python::len(result); ++i) {
-        obj.add(extract<boost::shared_ptr<ProfileModellerIface> >(result[i]));
+        obj.add(extract<std::shared_ptr<ProfileModellerIface> >(result[i]));
       }
     }
   };
 
   void export_modeller() {
     class_<ProfileModellerIfaceWrapper,
-           boost::shared_ptr<ProfileModellerIfaceWrapper>,
+           std::shared_ptr<ProfileModellerIfaceWrapper>,
            boost::noncopyable>("ProfileModellerIface")
       .def("model", pure_virtual(&ProfileModellerIface::model))
       .def("fit", pure_virtual(&ProfileModellerIface::fit))
@@ -122,7 +123,7 @@ namespace dials { namespace algorithms { namespace boost_python {
       .def("copy", pure_virtual(&ProfileModellerIface::copy))
       .def("__len__", pure_virtual(&ProfileModellerIface::size));
 
-    register_ptr_to_python<boost::shared_ptr<ProfileModellerIface> >();
+    register_ptr_to_python<std::shared_ptr<ProfileModellerIface> >();
 
     class_<EmpiricalProfileModellerWrapper,
            boost::noncopyable,

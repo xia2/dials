@@ -12,6 +12,7 @@ ExperimentLists.
 from __future__ import annotations
 
 import logging
+import math
 from copy import deepcopy
 from unittest.mock import Mock
 
@@ -20,6 +21,7 @@ import pkg_resources
 
 import iotbx.merging_statistics
 from cctbx import crystal, miller, uctbx
+from cctbx.miller import split_unmerged
 from dxtbx.model import Experiment
 from dxtbx.util import ersatz_uuid4
 from libtbx import Auto, phil
@@ -372,8 +374,104 @@ def determine_best_unit_cell(experiments):
     return best_unit_cell
 
 
+class ExtendedDatasetStatistics(iotbx.merging_statistics.dataset_statistics):
+
+    """A class to extend iotbx merging statistics."""
+
+    def __init__(self, *args, additional_stats=False, seed=0, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.r_split = None
+        self.r_split_binned = None
+        self.binner = None
+        if not additional_stats:
+            return
+        i_obs = kwargs.get("i_obs")
+        n_bins = kwargs.get("n_bins", 20)
+        if not i_obs:
+            return
+        i_obs_copy = i_obs.customized_copy()
+        i_obs_copy.setup_binner(n_bins=n_bins)
+        i_obs = i_obs.map_to_asu()
+        i_obs = i_obs.sort("packed_indices")
+
+        split_datasets = split_unmerged(
+            unmerged_indices=i_obs.indices(),
+            unmerged_data=i_obs.data(),
+            unmerged_sigmas=i_obs.sigmas(),
+            seed=seed,
+        )
+        indices = split_datasets.indices
+        m1 = miller.array(
+            miller_set=miller.set(i_obs.crystal_symmetry(), indices),
+            data=split_datasets.data_1,
+        )
+        m2 = miller.array(
+            miller_set=miller.set(i_obs.crystal_symmetry(), indices),
+            data=split_datasets.data_2,
+        )
+        assert i_obs_copy.binner() is not None
+        self.binner = i_obs_copy.binner()
+        m1.use_binning(self.binner)
+        m2.use_binning(self.binner)
+
+        self.r_split = self.calc_rsplit(
+            m1, m2, assume_index_matching=True, use_binning=False
+        )
+        self.r_split_binned = self.calc_rsplit(
+            m1, m2, assume_index_matching=True, use_binning=True
+        )
+
+    def as_dict(self):
+        d = super().as_dict()
+        if not self.r_split:
+            return d
+        d["overall"]["r_split"] = self.r_split
+        d["r_split"] = self.r_split_binned
+        return d
+
+    @classmethod
+    def calc_rsplit(cls, this, other, assume_index_matching=False, use_binning=False):
+        # based on White, T. A. et al. J. Appl. Cryst. 45, 335-341 (2012).
+        # adapted from cctbx_project/xfel/cxi_cc.py
+        # Note that compared to the original published definition, we have used random
+        # half-set assignment of observations (like in cc1/2), rather than random half-set
+        # assignment of whole images.
+        if not use_binning:
+            assert other.indices().size() == this.indices().size()
+            if this.data().size() == 0:
+                return 0.0
+
+            if assume_index_matching:
+                (o, c) = (this, other)
+            else:
+                (o, c) = this.common_sets(other=other, assert_no_singles=True)
+
+            den = 0.5 * flex.sum(o.data() + c.data())
+            if den == 0:  # avoid zero division error
+                return -1
+            return (1.0 / math.sqrt(2)) * flex.sum(flex.abs(o.data() - c.data())) / den
+
+        assert this.binner is not None
+        results = []
+        for i_bin in this.binner().range_used():
+            sel = this.binner().selection(i_bin)
+            results.append(
+                cls.calc_rsplit(
+                    this.select(sel),
+                    other.select(sel),
+                    assume_index_matching=assume_index_matching,
+                    use_binning=False,
+                )
+            )
+        return results
+
+
 def merging_stats_from_scaled_array(
-    scaled_miller_array, n_bins=20, use_internal_variance=False, anomalous=True
+    scaled_miller_array,
+    n_bins=20,
+    use_internal_variance=False,
+    anomalous=True,
+    additional_stats=False,
 ):
     """Calculate the normal and anomalous merging statistics."""
 
@@ -383,7 +481,7 @@ def merging_stats_from_scaled_array(
             "cannot be calculated."
         )
     try:
-        result = iotbx.merging_statistics.dataset_statistics(
+        result = ExtendedDatasetStatistics(
             i_obs=scaled_miller_array,
             n_bins=n_bins,
             anomalous=False,
@@ -391,6 +489,7 @@ def merging_stats_from_scaled_array(
             eliminate_sys_absent=False,
             use_internal_variance=use_internal_variance,
             cc_one_half_significance_level=0.01,
+            additional_stats=additional_stats,
         )
     except (RuntimeError, Sorry) as e:
         raise DialsMergingStatisticsError(
@@ -411,7 +510,7 @@ def merging_stats_from_scaled_array(
             )
         else:
             try:
-                anom_result = iotbx.merging_statistics.dataset_statistics(
+                anom_result = ExtendedDatasetStatistics(
                     i_obs=intensities_anom,
                     n_bins=n_bins,
                     anomalous=True,
@@ -419,6 +518,7 @@ def merging_stats_from_scaled_array(
                     cc_one_half_significance_level=0.01,
                     eliminate_sys_absent=False,
                     use_internal_variance=use_internal_variance,
+                    additional_stats=additional_stats,
                 )
             except (RuntimeError, Sorry) as e:
                 logger.warning(
@@ -427,7 +527,6 @@ def merging_stats_from_scaled_array(
                     e,
                     exc_info=True,
                 )
-
     return result, anom_result
 
 

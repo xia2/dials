@@ -8,7 +8,7 @@
  *  This code is distributed under the BSD license, a copy of which is
  *  included in the root directory of this package.
  */
-
+#include <memory>
 #include <boost/python.hpp>
 #include <boost/python/def.hpp>
 #include <dials/algorithms/integration/parallel_integrator.h>
@@ -220,7 +220,7 @@ namespace dials { namespace algorithms { namespace boost_python {
    * @returns The reference calculator
    */
   GaussianRSReferenceCalculator *GaussianRSReferenceCalculator_init(
-    boost::shared_ptr<SamplerIface> sampler,
+    std::shared_ptr<SamplerIface> sampler,
     boost::python::list spec) {
     af::shared<TransformSpec> spec_list;
     for (std::size_t i = 0; i < boost::python::len(spec); ++i) {
@@ -230,7 +230,7 @@ namespace dials { namespace algorithms { namespace boost_python {
   }
 
   GaussianRSReferenceCalculator *GaussianRSReferenceCalculator_init2(
-    boost::shared_ptr<SamplerIface> sampler,
+    std::shared_ptr<SamplerIface> sampler,
     boost::python::list spec,
     boost::python::list modeller) {
     DIALS_ASSERT(boost::python::len(spec) == boost::python::len(modeller));
@@ -287,8 +287,8 @@ namespace dials { namespace algorithms { namespace boost_python {
     // Export Simple background calculator
     class_<SimpleBackgroundCalculator, bases<BackgroundCalculatorIface> >(
       "SimpleBackgroundCalculator", no_init)
-      .def(init<boost::shared_ptr<background::Modeller>,
-                boost::shared_ptr<background::OutlierRejector>,
+      .def(init<std::shared_ptr<background::Modeller>,
+                std::shared_ptr<background::OutlierRejector>,
                 std::size_t>());
 
     // Export GLM background calculator
@@ -300,7 +300,7 @@ namespace dials { namespace algorithms { namespace boost_python {
     // Export GModel background calculator
     class_<GModelBackgroundCalculator, bases<BackgroundCalculatorIface> >(
       "GModelBackgroundCalculator", no_init)
-      .def(init<boost::shared_ptr<BackgroundModel>, bool, std::size_t>(
+      .def(init<std::shared_ptr<BackgroundModel>, bool, std::size_t>(
         (arg("model"), arg("robust"), arg("min_pixels"))));
 
     // Export the reference data structure
@@ -314,7 +314,7 @@ namespace dials { namespace algorithms { namespace boost_python {
     // Export GaussianRSReferenceProfileData
     class_<GaussianRSReferenceProfileData>("GaussianRSReferenceProfileData", no_init)
       .def(init<const ReferenceProfileData &,
-                boost::shared_ptr<SamplerIface>,
+                std::shared_ptr<SamplerIface>,
                 const TransformSpec &>())
       .def("reference",
            &GaussianRSReferenceProfileData::reference,
@@ -352,9 +352,8 @@ namespace dials { namespace algorithms { namespace boost_python {
     // Export GaussianRSReferenceCalculator
     class_<GaussianRSReferenceCalculator, bases<ReferenceCalculatorIface> >(
       "GaussianRSReferenceCalculator", no_init)
-      .def(
-        init<boost::shared_ptr<SamplerIface>, const af::const_ref<TransformSpec> &>())
-      .def(init<boost::shared_ptr<SamplerIface>,
+      .def(init<std::shared_ptr<SamplerIface>, const af::const_ref<TransformSpec> &>())
+      .def(init<std::shared_ptr<SamplerIface>,
                 const af::const_ref<TransformSpec> &,
                 const af::const_ref<ThreadSafeEmpiricalProfileModeller> &>())
       .def("__init__", make_constructor(&GaussianRSReferenceCalculator_init))

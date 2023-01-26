@@ -10,7 +10,6 @@
  */
 #include <boost/python.hpp>
 #include <boost/python/def.hpp>
-#include <boost/function.hpp>
 #include <boost_adaptbx/optional_conversions.h>
 #include <scitbx/array_family/boost_python/flex_wrapper.h>
 #include <H5Cpp.h>

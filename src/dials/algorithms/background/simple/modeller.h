@@ -13,8 +13,7 @@
 #define DIALS_ALGORITHMS_BACKGROUND_MODELLER_H
 
 #include <cmath>
-#include <boost/shared_ptr.hpp>
-#include <boost/make_shared.hpp>
+#include <memory>
 #include <scitbx/matrix/inversion.h>
 #include <dials/array_family/scitbx_shared_and_versa.h>
 #include <dials/error.h>
@@ -48,7 +47,7 @@ namespace dials { namespace algorithms { namespace background {
   public:
     virtual ~Modeller() {}
 
-    virtual boost::shared_ptr<Model> create(
+    virtual std::shared_ptr<Model> create(
       const af::const_ref<double, af::c_grid<3> > &data,
       const af::const_ref<bool, af::c_grid<3> > &mask) const = 0;
   };
@@ -86,7 +85,7 @@ namespace dials { namespace algorithms { namespace background {
    */
   class Constant2dModeller : public Modeller {
   public:
-    virtual boost::shared_ptr<Model> create(
+    virtual std::shared_ptr<Model> create(
       const af::const_ref<double, af::c_grid<3> > &data,
       const af::const_ref<bool, af::c_grid<3> > &mask) const {
       DIALS_ASSERT(data.accessor().all_eq(mask.accessor()));
@@ -114,7 +113,7 @@ namespace dials { namespace algorithms { namespace background {
         // variance is S/(count-1), SEM^2 is variance/count
         sq_sem[k] = S / (count * count - count);
       }
-      return boost::make_shared<Constant2dModel>(mean, sq_sem);
+      return std::make_shared<Constant2dModel>(mean, sq_sem);
     }
   };
 
@@ -147,7 +146,7 @@ namespace dials { namespace algorithms { namespace background {
    */
   class Constant3dModeller : public Modeller {
   public:
-    virtual boost::shared_ptr<Model> create(
+    virtual std::shared_ptr<Model> create(
       const af::const_ref<double, af::c_grid<3> > &data,
       const af::const_ref<bool, af::c_grid<3> > &mask) const {
       DIALS_ASSERT(data.size() == mask.size());
@@ -167,7 +166,7 @@ namespace dials { namespace algorithms { namespace background {
       }
       DIALS_ASSERT(count > 1);
       // variance is S/(count-1), SEM^2 is variance/count
-      return boost::make_shared<Constant3dModel>(M, S / (count * count - count));
+      return std::make_shared<Constant3dModel>(M, S / (count * count - count));
     }
   };
 
@@ -226,7 +225,7 @@ namespace dials { namespace algorithms { namespace background {
    */
   class Linear2dModeller : public Modeller {
   public:
-    virtual boost::shared_ptr<Model> create(
+    virtual std::shared_ptr<Model> create(
       const af::const_ref<double, af::c_grid<3> > &data,
       const af::const_ref<bool, af::c_grid<3> > &mask) const {
       DIALS_ASSERT(data.accessor().all_eq(mask.accessor()));
@@ -283,7 +282,7 @@ namespace dials { namespace algorithms { namespace background {
         vb[k] = S * A[4] / (count - 3);
         vc[k] = S * A[8] / (count - 3);
       }
-      return boost::make_shared<Linear2dModel>(a, b, c, va, vb, vc);
+      return std::make_shared<Linear2dModel>(a, b, c, va, vb, vc);
     }
   };
 
@@ -334,7 +333,7 @@ namespace dials { namespace algorithms { namespace background {
    */
   class Linear3dModeller : public Modeller {
   public:
-    virtual boost::shared_ptr<Model> create(
+    virtual std::shared_ptr<Model> create(
       const af::const_ref<double, af::c_grid<3> > &data,
       const af::const_ref<bool, af::c_grid<3> > &mask) const {
       DIALS_ASSERT(data.accessor().all_eq(mask.accessor()));
@@ -395,7 +394,7 @@ namespace dials { namespace algorithms { namespace background {
       double vb = S * A[5] / (count - 4);
       double vc = S * A[10] / (count - 4);
       double vd = S * A[15] / (count - 4);
-      return boost::make_shared<Linear3dModel>(B[0], B[1], B[2], B[3], va, vb, vc, vd);
+      return std::make_shared<Linear3dModel>(B[0], B[1], B[2], B[3], va, vb, vc, vd);
     }
   };
 

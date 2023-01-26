@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass
-from typing import List, Optional
+from typing import List, Optional, Type
 
 from jinja2 import ChoiceLoader, Environment, PackageLoader
 
@@ -51,8 +51,8 @@ class MergingStatisticsData:
     reflections: Optional[
         List[flex.reflection_table]
     ] = None  # only needed if using this class like a script when making batch plots
-    merging_statistics_result: Optional[dataset_statistics] = None
-    anom_merging_statistics_result: Optional[dataset_statistics] = None
+    merging_statistics_result: Optional[Type[dataset_statistics]] = None
+    anom_merging_statistics_result: Optional[Type[dataset_statistics]] = None
     anomalous_amplitudes: Optional[miller.array] = None
     Wilson_B_iso: Optional[float] = None
 

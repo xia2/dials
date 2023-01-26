@@ -4,8 +4,8 @@ import copy
 import logging
 import os
 
-import dxtbx.model  # noqa: F401
-import libtbx.phil  # noqa: F401
+import dxtbx.model
+import libtbx.phil
 from cctbx.miller import map_to_asu
 from rstbx.cftbx.coordinate_frame_helpers import align_reference_frame
 from scitbx import matrix
@@ -17,11 +17,8 @@ from dials.util.filter_reflections import (
     filter_reflection_table,
 )
 
-# Import no QA 401 for typing annotations
-
-
 try:
-    from typing import Tuple  # noqa: F401
+    from typing import Tuple
 except ImportError:
     pass
 
@@ -49,8 +46,13 @@ def export_xds_ascii(integrated_data, experiment_list, params, var_model=(1, 0))
             _export_experiment(filename, experiment_data, experiment, params, var_model)
 
 
-def _export_experiment(filename, integrated_data, experiment, params, var_model=(1, 0)):
-    # type: (str, flex.reflection_table, dxtbx.model.Experiment, libtbx.phil.scope_extract, Tuple)
+def _export_experiment(
+    filename: str,
+    integrated_data: flex.reflection_table,
+    experiment: dxtbx.model.Experiment,
+    params: libtbx.phil.scope_extract,
+    var_model: Tuple = (1, 0),
+):
     """Export a single experiment to an XDS_ASCII.HKL format file.
 
     Args:

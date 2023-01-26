@@ -12,7 +12,7 @@
 #ifndef DIALS_ALGORITHMS_PROFILE_MODEL_MODELLER_MODELLER_INTERFACE_H
 #define DIALS_ALGORITHMS_PROFILE_MODEL_MODELLER_MODELLER_INTERFACE_H
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <dials/array_family/reflection_table.h>
 
 namespace dials { namespace algorithms {
@@ -28,13 +28,13 @@ namespace dials { namespace algorithms {
     typedef af::ref<bool, af::c_grid<3> > mask_reference;
     typedef af::const_ref<double, af::c_grid<3> > data_const_reference;
     typedef af::const_ref<bool, af::c_grid<3> > mask_const_reference;
-    typedef boost::shared_ptr<ProfileModellerIface> pointer;
+    typedef std::shared_ptr<ProfileModellerIface> pointer;
 
     virtual ~ProfileModellerIface() {}
 
     virtual void model(af::reflection_table) = 0;
 
-    virtual void accumulate(boost::shared_ptr<ProfileModellerIface>) = 0;
+    virtual void accumulate(std::shared_ptr<ProfileModellerIface>) = 0;
 
     virtual void finalize() = 0;
 

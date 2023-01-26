@@ -1645,7 +1645,12 @@ class PySlip(_BufferedCanvas):
                     (x, y) = pt
                     if radius:
                         rectangles.append(
-                            (x + x_off - radius, y + y_off - radius, diameter, diameter)
+                            (
+                                int(x + x_off - radius),
+                                int(y + y_off - radius),
+                                int(diameter),
+                                int(diameter),
+                            )
                         )
                     else:
                         points.append((x + x_off, y + y_off))
@@ -1681,7 +1686,7 @@ class PySlip(_BufferedCanvas):
                 if pt:
                     (x, y) = pt
                     if radius:
-                        dc.DrawCircle(x + x_off, y + y_off, radius)
+                        dc.DrawCircle(int(x + x_off), int(y + y_off), radius)
 
     def DrawPointLayer(self, dc, data, map_rel):
         """Draw a points layer.
@@ -1702,7 +1707,7 @@ class PySlip(_BufferedCanvas):
                     dc.SetBrush(wx.Brush(colour))
                     (x, y) = pt
                     if radius:
-                        dc.DrawCircle(x + x_off, y + y_off, radius)
+                        dc.DrawCircle(int(x + x_off), int(y + y_off), radius)
         else:
             (dc_w, dc_h) = dc.GetSize()
             dc_w2 = dc_w / 2  # noqa; lgtm; self-modifying code
@@ -1715,7 +1720,7 @@ class PySlip(_BufferedCanvas):
                 dc.SetBrush(wx.Brush(colour))
                 exec(self.point_view_placement[place])
                 if radius:
-                    dc.DrawCircle(x, y, radius)
+                    dc.DrawCircle(int(x), int(y), radius)
 
     def DrawPolygonLayer(self, dc, data, map_rel):
         """Draw a polygon layer.
@@ -1892,7 +1897,7 @@ class PySlip(_BufferedCanvas):
 
                     # draw hotpoint circle
                     if radius:
-                        dc.DrawCircle(x, y, radius)
+                        dc.DrawCircle(int(x), int(y), radius)
 
                     # place the text relative to hotpoint
                     (w, h, _, _) = dc.GetFullTextExtent(tdata)
@@ -1900,7 +1905,7 @@ class PySlip(_BufferedCanvas):
                     h2 = h / 2  # noqa; lgtm; self-modifying code
                     exec(self.text_map_placement[place])
                     dc.SetTextForeground(textcolour)
-                    dc.DrawText(tdata, x, y)
+                    dc.DrawText(tdata, int(x), int(y))
         else:
             # we need the size of the DC
             (dc_w, dc_h) = dc.GetSize()
@@ -1940,7 +1945,7 @@ class PySlip(_BufferedCanvas):
                 (w, h, w2, h2, x, y) = (0, 0, 0, 0, 0, 0)
                 exec(self.text_view_placement[place])
                 if radius:
-                    dc.DrawCircle(x, y, radius)
+                    dc.DrawCircle(int(x), int(y), radius)
                 (x, y) = (save_x, save_y)
 
                 # place the text relative to hotpoint
@@ -1949,7 +1954,7 @@ class PySlip(_BufferedCanvas):
                 h2 = h / 2  # noqa; lgtm; self-modifying code
                 exec(self.text_view_placement[place])
                 dc.SetTextForeground(textcolour)
-                dc.DrawText(tdata, x, y)
+                dc.DrawText(tdata, int(x), int(y))
 
     ######
     # Positioning methods

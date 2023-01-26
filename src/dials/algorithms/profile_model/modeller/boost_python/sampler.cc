@@ -8,6 +8,7 @@
  *  This code is distributed under the BSD license, a copy of which is
  *  included in the root directory of this package.
  */
+#include <memory>
 #include <boost/python.hpp>
 #include <boost/python/def.hpp>
 #include <boost/python/iterator.hpp>
@@ -112,7 +113,7 @@ namespace dials { namespace algorithms { namespace boost_python {
       .def_pickle(CircleSamplerPickleSuite());
 
     class_<EwaldSphereSampler, bases<SamplerIface> >("EwaldSphereSampler", no_init)
-      .def(init<const boost::shared_ptr<BeamBase>,
+      .def(init<const std::shared_ptr<BeamBase>,
                 const Detector &,
                 const Goniometer &,
                 const Scan &,

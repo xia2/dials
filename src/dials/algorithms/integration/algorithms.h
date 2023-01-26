@@ -12,11 +12,10 @@
 #ifndef DIALS_ALGORITHMS_INTEGRATION_ALGORITHMS_H
 #define DIALS_ALGORITHMS_INTEGRATION_ALGORITHMS_H
 
+#include <memory>
 #include <numeric>
 
 #include <boost/thread.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/make_shared.hpp>
 
 #include <dxtbx/model/beam.h>
 #include <dxtbx/model/detector.h>
@@ -140,8 +139,8 @@ namespace dials { namespace algorithms {
      * @param rejector The outlier rejector
      * @param min_pixels The min number of pixels
      */
-    SimpleBackgroundCalculator(boost::shared_ptr<background::Modeller> modeller,
-                               boost::shared_ptr<background::OutlierRejector> rejector,
+    SimpleBackgroundCalculator(std::shared_ptr<background::Modeller> modeller,
+                               std::shared_ptr<background::OutlierRejector> rejector,
                                std::size_t min_pixels)
         : creator_(modeller, rejector, min_pixels) {}
 
@@ -202,7 +201,7 @@ namespace dials { namespace algorithms {
      * @param robust Do robust estimation
      * @param min_pixels The minimum number of pixels
      */
-    GModelBackgroundCalculator(boost::shared_ptr<BackgroundModel> model,
+    GModelBackgroundCalculator(std::shared_ptr<BackgroundModel> model,
                                bool robust,
                                std::size_t min_pixels)
         : creator_(model, robust, min_pixels) {}
@@ -305,7 +304,7 @@ namespace dials { namespace algorithms {
      * @param spec The transform spec
      */
     GaussianRSReferenceProfileData(const ReferenceProfileData &reference,
-                                   boost::shared_ptr<SamplerIface> sampler,
+                                   std::shared_ptr<SamplerIface> sampler,
                                    const TransformSpec &spec)
         : reference_(reference), sampler_(sampler), spec_(spec) {}
 
@@ -319,7 +318,7 @@ namespace dials { namespace algorithms {
     /**
      * Get the sampler
      */
-    boost::shared_ptr<SamplerIface> sampler() const {
+    std::shared_ptr<SamplerIface> sampler() const {
       return sampler_;
     }
 
@@ -332,7 +331,7 @@ namespace dials { namespace algorithms {
 
   protected:
     ReferenceProfileData reference_;
-    boost::shared_ptr<SamplerIface> sampler_;
+    std::shared_ptr<SamplerIface> sampler_;
     TransformSpec spec_;
   };
 
@@ -856,11 +855,11 @@ namespace dials { namespace algorithms {
 
       if (deconvolution) {
         DIALS_ASSERT(detector_space);
-        algorithm_ = boost::make_shared<DSDCAlgorithm>(data);
+        algorithm_ = std::make_shared<DSDCAlgorithm>(data);
       } else if (detector_space) {
-        algorithm_ = boost::make_shared<DSAlgorithm>(data);
+        algorithm_ = std::make_shared<DSAlgorithm>(data);
       } else {
-        algorithm_ = boost::make_shared<RSAlgorithm>(data);
+        algorithm_ = std::make_shared<RSAlgorithm>(data);
       }
     }
 
@@ -878,7 +877,7 @@ namespace dials { namespace algorithms {
     }
 
   protected:
-    boost::shared_ptr<GaussianRSIntensityCalculatorAlgorithm> algorithm_;
+    std::shared_ptr<GaussianRSIntensityCalculatorAlgorithm> algorithm_;
   };
 
   /**
@@ -900,7 +899,7 @@ namespace dials { namespace algorithms {
     ThreadSafeEmpiricalProfileModeller(std::size_t n, int3 datasize, double threshold)
         : EmpiricalProfileModeller(n, datasize, threshold) {
       for (std::size_t i = 0; i < n; ++i) {
-        mutex_.push_back(boost::make_shared<boost::mutex>());
+        mutex_.push_back(std::make_shared<boost::mutex>());
       }
     }
 
@@ -918,7 +917,7 @@ namespace dials { namespace algorithms {
     }
 
   protected:
-    af::shared<boost::shared_ptr<boost::mutex> > mutex_;
+    af::shared<std::shared_ptr<boost::mutex> > mutex_;
   };
 
   /**
@@ -926,14 +925,14 @@ namespace dials { namespace algorithms {
    */
   class GaussianRSReferenceCalculator : public ReferenceCalculatorIface {
   public:
-    GaussianRSReferenceCalculator(boost::shared_ptr<SamplerIface> sampler,
+    GaussianRSReferenceCalculator(std::shared_ptr<SamplerIface> sampler,
                                   const af::const_ref<TransformSpec> &spec)
         : sampler_(sampler),
           spec_(spec.begin(), spec.end()),
           modeller_(init_modeller(sampler, spec)) {}
 
     GaussianRSReferenceCalculator(
-      boost::shared_ptr<SamplerIface> sampler,
+      std::shared_ptr<SamplerIface> sampler,
       const af::const_ref<TransformSpec> &spec,
       const af::const_ref<ThreadSafeEmpiricalProfileModeller> &modeller)
         : sampler_(sampler),
@@ -942,7 +941,7 @@ namespace dials { namespace algorithms {
 
     ~GaussianRSReferenceCalculator() {}
 
-    boost::shared_ptr<SamplerIface> sampler() const {
+    std::shared_ptr<SamplerIface> sampler() const {
       return sampler_;
     }
 
@@ -1078,7 +1077,7 @@ namespace dials { namespace algorithms {
      * Initialise the profile modeller
      */
     af::shared<ThreadSafeEmpiricalProfileModeller> init_modeller(
-      boost::shared_ptr<SamplerIface> sampler,
+      std::shared_ptr<SamplerIface> sampler,
       const af::const_ref<TransformSpec> &spec) const {
       DIALS_ASSERT(spec.size() > 0);
       DIALS_ASSERT(sampler != NULL);
@@ -1130,7 +1129,7 @@ namespace dials { namespace algorithms {
       return full && integrated && bbox_valid && pixels_valid;
     }
 
-    boost::shared_ptr<SamplerIface> sampler_;
+    std::shared_ptr<SamplerIface> sampler_;
     af::shared<TransformSpec> spec_;
     af::shared<ThreadSafeEmpiricalProfileModeller> modeller_;
   };

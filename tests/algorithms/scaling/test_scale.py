@@ -421,6 +421,7 @@ def test_scale_physical(dials_data, tmp_path):
         "use_free_set=1",
         "outlier_rejection=simple",
         "json=scaling.json",
+        "additional_stats=True",
     ]
     run_one_scaling(tmp_path, [refl_1, expt_1] + extra_args)
     unmerged_mtz = tmp_path / "unmerged.mtz"

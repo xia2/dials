@@ -129,6 +129,9 @@ output {
         .type = strings
         .help = "Dataset name to be used in MTZ file output (multiple names
             allowed for MAD datasets)"
+    additional_stats = False
+       .type = bool
+       .help = "Calculate and report the R-split statistic"
 }
 include scope dials.util.exclude_images.phil_scope
 """,
@@ -247,6 +250,7 @@ def merge_data_to_mtz(
             assess_space_group=params.assess_space_group,
             n_bins=params.merging.n_bins,
             use_internal_variance=params.merging.use_internal_variance,
+            show_additional_stats=params.output.additional_stats,
         )
         process_merged_data(
             params, mtz_dataset, merged, merged_anomalous, stats_summary

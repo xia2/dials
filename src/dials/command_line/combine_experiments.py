@@ -745,6 +745,8 @@ class Script:
 
         # cluster the resulting experiments if requested
         if params.clustering.use and len(experiments) > 1:
+            if params.clustering.max_clusters == 0:
+                sys.exit("Error: max_clusters must be None or >0")
             clustered = do_unit_cell_clustering(
                 experiments,
                 reflections,
@@ -752,9 +754,9 @@ class Script:
                 threshold=params.clustering.threshold,
             )
             n_clusters = len(clustered)
-            clusters = sorted(clustered.clusters, key=len, reverse=True)[
-                : min(params.clustering.max_clusters, n_clusters)
-            ]
+            clusters = sorted(clustered.clusters, key=len, reverse=True)
+            if params.clustering.max_clusters is not None:
+                clusters = clusters[: params.clustering.max_clusters]
             if params.clustering.exclude_single_crystal_clusters:
                 clusters = [c for c in clusters if len(c) > 1]
             clustered_experiments = [

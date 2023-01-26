@@ -11,6 +11,7 @@
 #ifndef DIALS_ALGORITHMS_BACKGROUND_RADIAL_AVERAGE_H
 #define DIALS_ALGORITHMS_BACKGROUND_RADIAL_AVERAGE_H
 
+#include <memory>
 #include <dxtbx/model/beam.h>
 #include <dxtbx/model/detector.h>
 #include <dials/error.h>
@@ -23,7 +24,7 @@ namespace dials { namespace algorithms {
 
   class RadialAverage {
   public:
-    RadialAverage(boost::shared_ptr<BeamBase> beam,
+    RadialAverage(std::shared_ptr<BeamBase> beam,
                   const Detector &detector,
                   double vmin,
                   double vmax,
@@ -92,7 +93,7 @@ namespace dials { namespace algorithms {
     }
 
   private:
-    boost::shared_ptr<BeamBase> beam_;
+    std::shared_ptr<BeamBase> beam_;
     Detector detector_;
     af::shared<double> sum_;
     af::shared<double> weight_;

@@ -318,6 +318,7 @@ class ScalingAlgorithm:
                 self.scaled_miller_array,
                 self.params.output.merging.nbins,
                 self.params.output.use_internal_variance,
+                additional_stats=self.params.output.additional_stats,
             )
         except DialsMergingStatisticsError as e:
             logger.warning(e, exc_info=True)

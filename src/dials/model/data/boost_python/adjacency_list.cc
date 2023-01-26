@@ -12,7 +12,6 @@
 #include <boost/python/def.hpp>
 #include <boost/python/iterator.hpp>
 #include <boost_adaptbx/std_pair_conversion.h>
-#include <boost/iterator/transform_iterator.hpp>
 #include <dials/model/data/adjacency_list.h>
 
 namespace dials { namespace model { namespace boost_python {

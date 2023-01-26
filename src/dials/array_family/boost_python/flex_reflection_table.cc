@@ -8,6 +8,7 @@
  *  This code is distributed under the BSD license, a copy of which is
  *  included in the root directory of this package.
  */
+#include <memory>
 #include <boost/python.hpp>
 #include <boost/python/def.hpp>
 #include <boost/python/suite/indexing/map_indexing_suite.hpp>
@@ -1187,8 +1188,7 @@ namespace dials { namespace af { namespace boost_python {
 
     // Export the experiment id map
     class_<reflection_table::experiment_map_type,
-           boost::shared_ptr<reflection_table::experiment_map_type> >(
-      "experiment_id_map")
+           std::shared_ptr<reflection_table::experiment_map_type> >("experiment_id_map")
       .def("__len__", &reflection_table::experiment_map_type::size)
       .def("__getitem__", &experiment_map_type_detail::getitem)
       .def("__setitem__", &experiment_map_type_detail::setitem)

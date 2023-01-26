@@ -1,0 +1,1 @@
+Fix test failures on windows by passing a fully-qualified path for executable to ``subprocess.run()``, as resolving the path of the executable can be platform dependent.

@@ -12,6 +12,7 @@
 #ifndef DIALS_ALGORITHMS_BACKGROUND_GMODEL_CREATOR_H
 #define DIALS_ALGORITHMS_BACKGROUND_GMODEL_CREATOR_H
 
+#include <memory>
 #include <dials/array_family/reflection_table.h>
 #include <dials/array_family/scitbx_shared_and_versa.h>
 #include <dials/model/data/shoebox.h>
@@ -36,7 +37,7 @@ namespace dials { namespace algorithms {
      * Initialise the creator
      * @param min_pixels The minimum number of pixels needed
      */
-    GModelBackgroundCreator(boost::shared_ptr<BackgroundModel> model,
+    GModelBackgroundCreator(std::shared_ptr<BackgroundModel> model,
                             bool robust,
                             std::size_t min_pixels)
         : model_(model), robust_(robust), min_pixels_(min_pixels) {
@@ -281,7 +282,7 @@ namespace dials { namespace algorithms {
       return XWY / XWX;
     }
 
-    boost::shared_ptr<BackgroundModel> model_;
+    std::shared_ptr<BackgroundModel> model_;
     bool robust_;
     std::size_t min_pixels_;
   };

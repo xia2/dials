@@ -12,10 +12,9 @@
 #define DIALS_ARRAY_FAMILY_FLEX_TABLE_H
 
 #include <algorithm>
-#include <vector>
 #include <map>
-#include <boost/shared_ptr.hpp>
-#include <boost/make_shared.hpp>
+#include <memory>
+#include <vector>
 #include <boost/python.hpp>
 #include <boost/variant.hpp>
 #include <boost/mpl/list.hpp>
@@ -70,7 +69,7 @@ namespace dials { namespace af {
       template <typename T>
       void operator()(const af::shared<T> &other_column) const {
         size_type n = t_->nrows();
-        boost::shared_ptr<map_type> table = t_->table_;
+        std::shared_ptr<map_type> table = t_->table_;
         iterator it = table->lower_bound(k_);
         if (it == table->end() || table->key_comp()(k_, it->first)) {
           it = table->insert(
@@ -129,7 +128,7 @@ namespace dials { namespace af {
       template <typename T>
       operator af::shared<T>() const {
         size_type n = t_->nrows();
-        boost::shared_ptr<map_type> table = t_->table_;
+        std::shared_ptr<map_type> table = t_->table_;
         iterator it = table->lower_bound(k_);
         if (it == table->end() || table->key_comp()(k_, it->first)) {
           it = table->insert(
@@ -160,7 +159,7 @@ namespace dials { namespace af {
        * Return the mapped variant type at the given element directly.
        */
       mapped_type variant() const {
-        boost::shared_ptr<map_type> table = t_->table_;
+        std::shared_ptr<map_type> table = t_->table_;
         iterator it = table->find(k_);
         if (it == table->end()) {
           PyErr_Format(PyExc_KeyError, "Unknown column '%s'", k_.c_str());
@@ -212,14 +211,13 @@ namespace dials { namespace af {
 
   public:
     /** Initialise the table */
-    flex_table() : table_(boost::make_shared<map_type>()), default_nrows_(0) {}
+    flex_table() : table_(std::make_shared<map_type>()), default_nrows_(0) {}
 
     /**
      * Initialise the table to a certain size
      * @param n The size to initialise to
      */
-    flex_table(size_type n)
-        : table_(boost::make_shared<map_type>()), default_nrows_(n) {}
+    flex_table(size_type n) : table_(std::make_shared<map_type>()), default_nrows_(n) {}
 
     /**
      * Virtual destructor
@@ -431,7 +429,7 @@ namespace dials { namespace af {
     }
 
   private:
-    boost::shared_ptr<map_type> table_;
+    std::shared_ptr<map_type> table_;
     size_type default_nrows_;
   };
 

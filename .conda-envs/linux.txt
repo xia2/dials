@@ -1,7 +1,7 @@
 conda-forge::alabaster
 conda-forge::biopython
-conda-forge::boost<=1.74
-conda-forge::boost-cpp<=1.74
+conda-forge::boost
+conda-forge::boost-cpp
 conda-forge::bzip2
 conda-forge::c-compiler
 conda-forge::colorlog
@@ -33,10 +33,10 @@ conda-forge::procrunner>=2.2.0
 conda-forge::psutil
 conda-forge::pybind11
 conda-forge::pyrtf
-conda-forge::pytest>=4.5,<7.0
 conda-forge::pytest-forked
 conda-forge::pytest-mock
 conda-forge::pytest-xdist
+conda-forge::pytest>=4.5,<7.0
 conda-forge::python-dateutil>=2.7.0
 conda-forge::reportlab
 conda-forge::requests
@@ -52,3 +52,4 @@ conda-forge::tqdm
 conda-forge::urllib3
 conda-forge::wxpython>=4.0.1
 conda-forge::xz
+conda-forge::zlib

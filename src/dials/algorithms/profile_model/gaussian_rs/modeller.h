@@ -12,6 +12,7 @@
 #ifndef DIALS_ALGORITHMS_PROFILE_MODEL_GAUSSIAN_RS_MODELLER_H
 #define DIALS_ALGORITHMS_PROFILE_MODEL_GAUSSIAN_RS_MODELLER_H
 
+#include <memory>
 #include <fstream>
 #include <dials/algorithms/profile_model/gaussian_rs/transform/transform.h>
 #include <dials/algorithms/profile_model/modeller/empirical_modeller.h>
@@ -47,7 +48,7 @@ namespace dials { namespace algorithms {
 
     enum FitMethod { ReciprocalSpace = 1, DetectorSpace = 2 };
 
-    GaussianRSProfileModellerBase(const boost::shared_ptr<BeamBase> beam,
+    GaussianRSProfileModellerBase(const std::shared_ptr<BeamBase> beam,
                                   const Detector &detector,
                                   const Goniometer &goniometer,
                                   const Scan &scan,
@@ -77,14 +78,14 @@ namespace dials { namespace algorithms {
                                 grid_method)) {}
 
   protected:
-    boost::shared_ptr<SamplerIface> init_sampler(boost::shared_ptr<BeamBase> beam,
-                                                 const Detector &detector,
-                                                 const Goniometer &goniometer,
-                                                 const Scan &scan,
-                                                 std::size_t num_scan_points,
-                                                 int grid_method) {
+    std::shared_ptr<SamplerIface> init_sampler(std::shared_ptr<BeamBase> beam,
+                                               const Detector &detector,
+                                               const Goniometer &goniometer,
+                                               const Scan &scan,
+                                               std::size_t num_scan_points,
+                                               int grid_method) {
       int2 scan_range = scan.get_array_range();
-      boost::shared_ptr<SamplerIface> sampler;
+      std::shared_ptr<SamplerIface> sampler;
       if (grid_method == RegularGrid || grid_method == CircularGrid) {
         if (detector.size() > 1) {
           grid_method = Single;
@@ -92,20 +93,20 @@ namespace dials { namespace algorithms {
       }
       switch (grid_method) {
       case Single:
-        sampler = boost::make_shared<SingleSampler>(scan_range, num_scan_points);
+        sampler = std::make_shared<SingleSampler>(scan_range, num_scan_points);
         break;
       case RegularGrid:
         DIALS_ASSERT(detector.size() == 1);
-        sampler = boost::make_shared<GridSampler>(
+        sampler = std::make_shared<GridSampler>(
           detector[0].get_image_size(), scan_range, int3(3, 3, num_scan_points));
         break;
       case CircularGrid:
         DIALS_ASSERT(detector.size() == 1);
-        sampler = boost::make_shared<CircleSampler>(
+        sampler = std::make_shared<CircleSampler>(
           detector[0].get_image_size(), scan_range, num_scan_points);
         break;
       case SphericalGrid:
-        sampler = boost::make_shared<EwaldSphereSampler>(
+        sampler = std::make_shared<EwaldSphereSampler>(
           beam, detector, goniometer, scan, num_scan_points);
       default:
         throw DIALS_ERROR("Unknown grid method");
@@ -113,7 +114,7 @@ namespace dials { namespace algorithms {
       return sampler;
     }
 
-    boost::shared_ptr<BeamBase> beam_;
+    std::shared_ptr<BeamBase> beam_;
     Detector detector_;
     Goniometer goniometer_;
     Scan scan_;
@@ -124,7 +125,7 @@ namespace dials { namespace algorithms {
     std::size_t num_scan_points_;
     int grid_method_;
     int fit_method_;
-    boost::shared_ptr<SamplerIface> sampler_;
+    std::shared_ptr<SamplerIface> sampler_;
   };
 
   namespace detail {
@@ -169,7 +170,7 @@ namespace dials { namespace algorithms {
      * @param threshold The modelling threshold value
      * @param grid_method The gridding method
      */
-    GaussianRSProfileModeller(boost::shared_ptr<BeamBase> beam,
+    GaussianRSProfileModeller(std::shared_ptr<BeamBase> beam,
                               const Detector &detector,
                               const Goniometer &goniometer,
                               const Scan &scan,
@@ -207,7 +208,7 @@ namespace dials { namespace algorithms {
       DIALS_ASSERT(sampler_ != 0);
     }
 
-    boost::shared_ptr<BeamBase> beam() const {
+    std::shared_ptr<BeamBase> beam() const {
       return beam_;
     }
 

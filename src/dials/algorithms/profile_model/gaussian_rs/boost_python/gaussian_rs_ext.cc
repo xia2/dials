@@ -8,6 +8,7 @@
  *  This code is distributed under the BSD license, a copy of which is
  *  included in the root directory of this package.
  */
+#include <memory>
 #include <boost/python.hpp>
 #include <boost/python/def.hpp>
 #include <boost_adaptbx/std_pair_conversion.h>
@@ -131,7 +132,7 @@ namespace dials {
         dials::algorithms::boost_python::empirical_profile_modeller_wrapper<
           GaussianRSProfileModeller>("GaussianRSProfileModeller");
       result
-        .def(init<boost::shared_ptr<BeamBase>,
+        .def(init<std::shared_ptr<BeamBase>,
                   const Detector&,
                   const Goniometer&,
                   const Scan&,
@@ -163,10 +164,10 @@ namespace dials {
         .value("reciprocal_space", GaussianRSProfileModeller::ReciprocalSpace)
         .value("detector_space", GaussianRSProfileModeller::DetectorSpace);
 
-      /* register_ptr_to_python< boost::shared_ptr<GaussianRSProfileModeller> >(); */
+      /* register_ptr_to_python< std::shared_ptr<GaussianRSProfileModeller> >(); */
       /* implicitly_convertible< */
-      /*   boost::shared_ptr<GaussianRSProfileModeller>, */
-      /* boost::shared_ptr<ProfileModellerIface> >(); */
+      /*   std::shared_ptr<GaussianRSProfileModeller>, */
+      /* std::shared_ptr<ProfileModellerIface> >(); */
     }
 
     BOOST_PYTHON_MODULE(dials_algorithms_profile_model_gaussian_rs_ext) {

@@ -1,0 +1,1 @@
+``dials.image_viewer``: Fix error when using newer versions of wxPython.

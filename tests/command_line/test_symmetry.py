@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import math
+import shutil
 import subprocess
 
 import procrunner
@@ -537,7 +538,7 @@ def test_x4wide(dials_data, tmp_path):
     x4wide = dials_data("x4wide_processed", pathlib=True)
     result = subprocess.run(
         [
-            "dials.symmetry",
+            shutil.which("dials.symmetry"),
             x4wide / "AUTOMATIC_DEFAULT_scaled.expt",
             x4wide / "AUTOMATIC_DEFAULT_scaled.refl",
         ],

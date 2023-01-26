@@ -11,6 +11,7 @@
 #ifndef DIALS_ALGORITHMS_INTEGRATION_MASK_OVERLAPPING_H
 #define DIALS_ALGORITHMS_INTEGRATION_MASK_OVERLAPPING_H
 
+#include <memory>
 #include <scitbx/vec3.h>
 #include <scitbx/array_family/tiny_types.h>
 #include <dials/model/data/adjacency_list.h>
@@ -52,7 +53,7 @@ namespace dials { namespace algorithms { namespace shoebox {
      */
     void operator()(af::ref<Shoebox<> > shoeboxes,
                     const af::const_ref<vec3<double> > &coords,
-                    const boost::shared_ptr<AdjacencyList> &adjacency_list) const {
+                    const std::shared_ptr<AdjacencyList> &adjacency_list) const {
       // Loop through all the reflections
       if (adjacency_list) {
         for (std::size_t i = 0; i < shoeboxes.size(); ++i) {

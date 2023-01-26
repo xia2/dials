@@ -11,6 +11,7 @@
 #ifndef DIALS_ALGORITHMS_PROFILE_MODEL_GAUSSIAN_RS_TRANSFORM_H
 #define DIALS_ALGORITHMS_PROFILE_MODEL_GAUSSIAN_RS_TRANSFORM_H
 
+#include <memory>
 #include <scitbx/vec2.h>
 #include <scitbx/vec3.h>
 #include <scitbx/array_family/tiny_types.h>
@@ -79,7 +80,7 @@ namespace dials {
        * @param n_sigma The number of standard deviations
        * @param grid_size The size of the reflection basis grid
        */
-      TransformSpec(const boost::shared_ptr<BeamBase> beam,
+      TransformSpec(const std::shared_ptr<BeamBase> beam,
                     const Detector &detector,
                     const Goniometer &gonio,
                     const Scan &scan,
@@ -109,7 +110,7 @@ namespace dials {
       }
 
       /** @returns the beam */
-      const boost::shared_ptr<BeamBase> beam() const {
+      const std::shared_ptr<BeamBase> beam() const {
         return beam_;
       }
 
@@ -164,7 +165,7 @@ namespace dials {
       }
 
     private:
-      boost::shared_ptr<BeamBase> beam_;
+      std::shared_ptr<BeamBase> beam_;
       Detector detector_;
       Goniometer goniometer_;
       Scan scan_;

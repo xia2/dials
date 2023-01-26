@@ -1,0 +1,1 @@
+``dials.combine_experiments``: Prevent default ``clustering.max_clusters=None`` from raising error when clustering.

@@ -175,6 +175,7 @@ were considered for use when refining the scaling model.
                         script.scaled_miller_array.resolution_filter(d_min=d_min),
                         script.params.output.merging.nbins,
                         script.params.output.use_internal_variance,
+                        additional_stats=script.params.output.additional_stats,
                     )
                 except DialsMergingStatisticsError:
                     pass

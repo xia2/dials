@@ -62,6 +62,7 @@ def test_merge(dials_data, tmp_path, anomalous, truncate, french_wilson_impl):
         "crystal_name=jam",
         "dataset_name=spam",
         "json=dials.merge.json",
+        "additional_stats=True",
     ]
     result = procrunner.run(command, working_directory=tmp_path)
     assert not result.returncode and not result.stderr
@@ -76,7 +77,9 @@ def test_merge(dials_data, tmp_path, anomalous, truncate, french_wilson_impl):
         wl = list(json_d.keys())[0]
         for k in {"merging_stats", "merging_stats_anom"}:
             assert k in json_d[wl]
-            assert {"d_star_sq_min", "n_obs", "cc_anom"} <= json_d[wl][k].keys()
+            assert {"d_star_sq_min", "n_obs", "cc_anom", "r_split"} <= json_d[wl][
+                k
+            ].keys()
 
     if truncate:
         expected_labels += amp_labels

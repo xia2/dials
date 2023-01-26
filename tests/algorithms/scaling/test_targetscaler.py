@@ -58,17 +58,7 @@ def generated_refl_to_scale():
     return reflections
 
 
-def test_target_refl():
-    """Return the target reflection table."""
-    return generated_target_refl()
-
-
-def test_refl_to_scale():
-    """Return the reflection table to scale."""
-    return generated_refl_to_scale()
-
-
-def test_exp(idval=0):
+def generate_test_expt(idval=0):
     """Test experiments object."""
     experiments = ExperimentList()
     exp_dict = {
@@ -112,10 +102,10 @@ def test_scale_against_target(KB_test_param):
     # 2 = K * exp(B/2)
     # 1/2 = K * exp(B/8)
     # Solving these gives the form tested for at the end of this test.
-    target_reflections = test_target_refl()
-    reflections = test_refl_to_scale()
-    target_experiments = test_exp()
-    experiments = test_exp(idval=1)
+    target_reflections = generated_target_refl()
+    reflections = generated_refl_to_scale()
+    target_experiments = generate_test_expt()
+    experiments = generate_test_expt(idval=1)
     scaled_reflections = scale_against_target(
         reflections, experiments, target_reflections, target_experiments, KB_test_param
     )
@@ -123,13 +113,13 @@ def test_scale_against_target(KB_test_param):
         [2.0, 0.5, 2.0, 2.0 * (4.0 ** (-1.0 / 3.0))]
     )
 
-    experiments = test_exp()
-    experiments.append(test_exp(idval=1)[0])
+    experiments = generate_test_expt()
+    experiments.append(generate_test_expt(idval=1)[0])
     experiments[0].scaling_model = KBScalingModel.from_data(KB_test_param, [], [])
     experiments[0].scaling_model.set_scaling_model_as_scaled()
     experiments[1].scaling_model = KBScalingModel.from_data(KB_test_param, [], [])
-    target_reflections = test_target_refl()
-    reflections = test_refl_to_scale()
+    target_reflections = generated_target_refl()
+    reflections = generated_refl_to_scale()
     # Repeat the test but calling the TargetScaler directly, to allow inspection
     # of the model components.
     targetscaler = TargetScalerFactory.create(

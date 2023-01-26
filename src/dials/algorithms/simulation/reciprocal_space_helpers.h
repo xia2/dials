@@ -11,7 +11,8 @@
 #ifndef DIALS_ALGORITHMS_SIMULATION_RECIPROCAL_SPACE_HELPERS_H
 #define DIALS_ALGORITHMS_SIMULATION_RECIPROCAL_SPACE_HELPERS_H
 
-#include <boost/random.hpp>
+#include <ctime>
+#include <random>
 #include <scitbx/vec2.h>
 #include <scitbx/vec3.h>
 #include <scitbx/array_family/tiny_types.h>
@@ -21,7 +22,6 @@
 #include <dxtbx/model/scan.h>
 #include <dials/array_family/scitbx_shared_and_versa.h>
 #include <dials/algorithms/profile_model/gaussian_rs/coordinate_system.h>
-#include <ctime>
 #include <dials/model/data/shoebox.h>
 
 namespace dials { namespace algorithms {
@@ -57,10 +57,10 @@ namespace dials { namespace algorithms {
     vec3<double> m2 = goniometer.get_rotation_axis();
 
     // Seed the random number generator
-    boost::random::mt19937 gen(time(0));
-    boost::random::normal_distribution<double> dist_x(0, sigma_b);
-    boost::random::normal_distribution<double> dist_y(0, sigma_b);
-    boost::random::normal_distribution<double> dist_z(0, sigma_m);
+    std::mt19937 gen(time(0));
+    std::normal_distribution<double> dist_x(0, sigma_b);
+    std::normal_distribution<double> dist_y(0, sigma_b);
+    std::normal_distribution<double> dist_z(0, sigma_m);
 
     // Do the simulation
     int counts = 0;
@@ -123,10 +123,10 @@ namespace dials { namespace algorithms {
     vec3<double> m2 = goniometer.get_rotation_axis();
 
     // Seed the random number generator
-    boost::random::mt19937 gen(time(0));
-    boost::random::normal_distribution<double> dist_x(0, sigma_b);
-    boost::random::normal_distribution<double> dist_y(0, sigma_b);
-    boost::random::normal_distribution<double> dist_z(0, sigma_m);
+    std::mt19937 gen(time(0));
+    std::normal_distribution<double> dist_x(0, sigma_b);
+    std::normal_distribution<double> dist_y(0, sigma_b);
+    std::normal_distribution<double> dist_z(0, sigma_m);
 
     // Do the simulation
     int counts = 0;

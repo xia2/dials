@@ -60,6 +60,7 @@ def test_experiment_singleaxisgonio():
     )
 
 
+@pytest.fixture(scope="module")
 def test_experiments_multiaxisgonio():
     """Create a mock experiments object."""
     # beam along +z
@@ -278,10 +279,10 @@ def test_calc_crystal_frame_vectors_single_axis_gonio(
         assert v1 == pytest.approx(v2)
 
 
-def test_calc_crystal_frame_vectors_multi_axis_gonio(test_reflection_table):
+def test_calc_crystal_frame_vectors_multi_axis_gonio(test_experiments_multiaxisgonio):
     """Test the namesake function, to check that the vectors are correctly rotated
     into the crystal frame."""
-    experiments = test_experiments_multiaxisgonio()
+    experiments = test_experiments_multiaxisgonio
     table = generate_reflection_table()
 
     # for the first scan, the rotation axis is the (1,0,0) direction, like the

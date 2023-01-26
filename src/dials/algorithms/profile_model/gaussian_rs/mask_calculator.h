@@ -11,7 +11,7 @@
 #ifndef DIALS_ALGORITHMS_PROFILE_MODEL_GAUSSIAN_RS_MASK_FOREGROUND_H
 #define DIALS_ALGORITHMS_PROFILE_MODEL_GAUSSIAN_RS_MASK_FOREGROUND_H
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <scitbx/vec2.h>
 #include <scitbx/vec3.h>
 #include <dxtbx/model/beam.h>
@@ -721,7 +721,7 @@ namespace dials {
     /**
      * Add a bbox calculator to the list.
      */
-    void push_back(boost::shared_ptr<MaskCalculatorIface> obj) {
+    void push_back(std::shared_ptr<MaskCalculatorIface> obj) {
       compute_.push_back(obj);
     }
 
@@ -755,7 +755,7 @@ namespace dials {
     }
 
   private:
-    std::vector<boost::shared_ptr<MaskCalculatorIface> > compute_;
+    std::vector<std::shared_ptr<MaskCalculatorIface> > compute_;
   };
 
 }}}}  // namespace dials::algorithms::profile_model::gaussian_rs

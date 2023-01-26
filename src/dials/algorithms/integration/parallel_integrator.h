@@ -12,6 +12,7 @@
 #ifndef DIALS_ALGORITHMS_INTEGRATION_PARALLEL_INTEGRATOR_H
 #define DIALS_ALGORITHMS_INTEGRATION_PARALLEL_INTEGRATOR_H
 
+#include <atomic>
 #include <boost/ptr_container/ptr_vector.hpp>
 #include <dxtbx/model/beam.h>
 #include <dxtbx/model/detector.h>
@@ -946,7 +947,7 @@ namespace dials { namespace algorithms {
 
         // Initialise the vector of atomic ints
         for (std::size_t i = 0; i < num_images; ++i) {
-          counter_.push_back(new boost::atomic<int>(0));
+          counter_.push_back(new std::atomic<int>(0));
         }
 
         // Increment the counter for each image
@@ -1011,7 +1012,7 @@ namespace dials { namespace algorithms {
 
     protected:
       int first_image_;
-      boost::ptr_vector<boost::atomic<int> > counter_;
+      boost::ptr_vector<std::atomic<int> > counter_;
     };
 
     /**

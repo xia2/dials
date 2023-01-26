@@ -12,7 +12,7 @@
 #define DIALS_ALGORITHMS_PROFILE_MODEL_GAUSSIAN_RS_PARTIALITY_CALCULATOR_H
 
 #include <cmath>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <boost/math/special_functions/erf.hpp>
 #include <scitbx/constants.h>
 #include <scitbx/vec3.h>
@@ -230,7 +230,7 @@ namespace dials {
     /**
      * Add a bbox calculator to the list.
      */
-    void push_back(boost::shared_ptr<PartialityCalculatorIface> obj) {
+    void push_back(std::shared_ptr<PartialityCalculatorIface> obj) {
       compute_.push_back(obj);
     }
 
@@ -265,7 +265,7 @@ namespace dials {
     }
 
   private:
-    std::vector<boost::shared_ptr<PartialityCalculatorIface> > compute_;
+    std::vector<std::shared_ptr<PartialityCalculatorIface> > compute_;
   };
 
 }}}}  // namespace dials::algorithms::profile_model::gaussian_rs

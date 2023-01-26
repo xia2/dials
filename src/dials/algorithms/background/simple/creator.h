@@ -13,7 +13,7 @@
 
 #include <omptbx/omp_or_stubs.h>
 #include <cmath>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <dials/array_family/reflection_table.h>
 #include <dials/array_family/scitbx_shared_and_versa.h>
 #include <dials/algorithms/background/simple/outlier_rejector.h>
@@ -41,8 +41,7 @@ namespace dials { namespace algorithms { namespace background {
      * Initialise with the desired modeller.
      * @param modeller The background modeller
      */
-    SimpleBackgroundCreator(boost::shared_ptr<Modeller> modeller,
-                            std::size_t min_pixels)
+    SimpleBackgroundCreator(std::shared_ptr<Modeller> modeller, std::size_t min_pixels)
         : modeller_(modeller), min_pixels_(min_pixels) {
       DIALS_ASSERT(modeller != NULL);
       DIALS_ASSERT(min_pixels > 0);
@@ -53,8 +52,8 @@ namespace dials { namespace algorithms { namespace background {
      * @param modeller The background modeller
      * @param rejector The outlier rejector
      */
-    SimpleBackgroundCreator(boost::shared_ptr<Modeller> modeller,
-                            boost::shared_ptr<OutlierRejector> rejector,
+    SimpleBackgroundCreator(std::shared_ptr<Modeller> modeller,
+                            std::shared_ptr<OutlierRejector> rejector,
                             std::size_t min_pixels)
         : modeller_(modeller), rejector_(rejector), min_pixels_(min_pixels) {
       DIALS_ASSERT(modeller != NULL);
@@ -179,7 +178,7 @@ namespace dials { namespace algorithms { namespace background {
       }
 
       // Create the background model
-      boost::shared_ptr<Model> model =
+      std::shared_ptr<Model> model =
         modeller_->create(data.const_ref(), bgmask.const_ref());
 
       // Populate the background shoebox
@@ -217,8 +216,8 @@ namespace dials { namespace algorithms { namespace background {
     }
 
   private:
-    boost::shared_ptr<Modeller> modeller_;
-    boost::shared_ptr<OutlierRejector> rejector_;
+    std::shared_ptr<Modeller> modeller_;
+    std::shared_ptr<OutlierRejector> rejector_;
     std::size_t min_pixels_;
   };
 

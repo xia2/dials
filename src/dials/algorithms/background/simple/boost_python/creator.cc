@@ -8,6 +8,7 @@
  *  This code is distributed under the BSD license, a copy of which is
  *  included in the root directory of this package.
  */
+#include <memory>
 #include <boost/python.hpp>
 #include <boost/python/def.hpp>
 #include <dials/algorithms/background/simple/creator.h>
@@ -55,12 +56,11 @@ namespace dials { namespace algorithms { namespace background { namespace boost_
 
   void creator_wrapper() {
     class_<SimpleBackgroundCreator>("Creator", no_init)
-      .def(init<boost::shared_ptr<Modeller>, std::size_t>(
+      .def(init<std::shared_ptr<Modeller>, std::size_t>(
         (arg("modeller"), arg("min_pixels") = 10)))
       .def(
-        init<boost::shared_ptr<Modeller>,
-             boost::shared_ptr<OutlierRejector>,
-             std::size_t>((arg("modeller"), arg("rejector"), arg("min_pixels") = 10)))
+        init<std::shared_ptr<Modeller>, std::shared_ptr<OutlierRejector>, std::size_t>(
+          (arg("modeller"), arg("rejector"), arg("min_pixels") = 10)))
       .def("__call__", &call_1<float>)
       .def("__call__", &call_2<float>)
       .def("__call__", &call_3<float>)

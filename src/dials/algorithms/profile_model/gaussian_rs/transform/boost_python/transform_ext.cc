@@ -8,6 +8,8 @@
  *  This code is distributed under the BSD license, a copy of which is
  *  included in the root directory of this package.
  */
+
+#include <memory>
 #include <boost/python.hpp>
 #include <boost/python/def.hpp>
 #include <dials/algorithms/profile_model/gaussian_rs/transform/beam_vector_map.h>
@@ -53,21 +55,21 @@ namespace dials {
                                                 af::c_grid<2>(s1_map.accessor())));
     }
 
-    boost::shared_ptr<TransformSpec> make_transform_spec_from_experiment(
+    std::shared_ptr<TransformSpec> make_transform_spec_from_experiment(
       object experiment,
       double sigma_b,
       double sigma_m,
       double nsigma,
       std::size_t grid_size) {
-      return boost::shared_ptr<TransformSpec>(new TransformSpec(
-        extract<boost::shared_ptr<BeamBase> >(experiment.attr("beam")),
-        extract<Detector>(experiment.attr("detector")),
-        extract<Goniometer>(experiment.attr("goniometer")),
-        extract<Scan>(experiment.attr("scan")),
-        sigma_b,
-        sigma_m,
-        nsigma,
-        grid_size));
+      return std::shared_ptr<TransformSpec>(
+        new TransformSpec(extract<std::shared_ptr<BeamBase> >(experiment.attr("beam")),
+                          extract<Detector>(experiment.attr("detector")),
+                          extract<Goniometer>(experiment.attr("goniometer")),
+                          extract<Scan>(experiment.attr("scan")),
+                          sigma_b,
+                          sigma_m,
+                          nsigma,
+                          grid_size));
     }
 
     /**
@@ -218,7 +220,7 @@ namespace dials {
              (arg("frames"), arg("phi"), arg("zeta")));
 
       class_<TransformSpec>("TransformSpec", no_init)
-        .def(init<boost::shared_ptr<BeamBase>,
+        .def(init<std::shared_ptr<BeamBase>,
                   const Detector &,
                   const Goniometer &,
                   const Scan &,

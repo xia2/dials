@@ -11,6 +11,7 @@
 #ifndef DIALS_ALGORITHMS_PROFILE_MODEL_MODELLER_STEREOGRAPHIC_PROJECTION_SAMPLER_H
 #define DIALS_ALGORITHMS_PROFILE_MODEL_MODELLER_STEREOGRAPHIC_PROJECTION_SAMPLER_H
 
+#include <memory>
 #include <dials/algorithms/profile_model/modeller/sampler_interface.h>
 
 namespace dials { namespace algorithms {
@@ -26,7 +27,7 @@ namespace dials { namespace algorithms {
     /**
      * Initialise the sampler
      */
-    StereographicProjectionSampler(const boost::shared_ptr<BeamBase> beam,
+    StereographicProjectionSampler(const std::shared_ptr<BeamBase> beam,
                                    const Detector &detector,
                                    const Goniometer &goniometer,
                                    const Scan &scan,

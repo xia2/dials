@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import shutil
 import subprocess
 
 
@@ -14,7 +15,7 @@ def test(dials_data, tmp_path):
         "PYTHONDEVMODE"
     ] = ""  # disable a developermode warning from pyparsing from mathtext in matplotlib
     result = subprocess.run(
-        ["dials.plot_Fo_vs_Fc", f"hklin={mtz_file}"],
+        [shutil.which("dials.plot_Fo_vs_Fc"), f"hklin={mtz_file}"],
         cwd=tmp_path,
         env=env,
         capture_output=True,

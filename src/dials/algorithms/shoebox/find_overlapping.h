@@ -12,7 +12,6 @@
 #define DIALS_ALGORITHMS_INTEGRATION_FIND_OVERLAPPING_H
 
 #include <vector>
-#include <boost/shared_ptr.hpp>
 #include <scitbx/array_family/tiny_types.h>
 #include <dials/array_family/scitbx_shared_and_versa.h>
 #include <dials/model/data/adjacency_list.h>

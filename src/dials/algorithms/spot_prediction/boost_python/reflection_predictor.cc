@@ -8,6 +8,7 @@
  *  This code is distributed under the BSD license, a copy of which is
  *  included in the root directory of this package.
  */
+#include <memory>
 #include <boost/python.hpp>
 #include <boost/python/def.hpp>
 #include <dials/algorithms/spot_prediction/reflection_predictor.h>
@@ -20,7 +21,7 @@ namespace dials { namespace algorithms { namespace boost_python {
     typedef ScanStaticReflectionPredictor Predictor;
 
     class_<Predictor>("ScanStaticReflectionPredictor", no_init)
-      .def(init<const boost::shared_ptr<BeamBase>,
+      .def(init<const std::shared_ptr<BeamBase>,
                 const Detector&,
                 const Goniometer&,
                 const Scan&,
@@ -41,7 +42,7 @@ namespace dials { namespace algorithms { namespace boost_python {
     typedef ScanVaryingReflectionPredictor Predictor;
 
     class_<Predictor>("ScanVaryingReflectionPredictor", no_init)
-      .def(init<const boost::shared_ptr<BeamBase>,
+      .def(init<const std::shared_ptr<BeamBase>,
                 const Detector&,
                 const Goniometer&,
                 const Scan&,
@@ -74,7 +75,7 @@ namespace dials { namespace algorithms { namespace boost_python {
       const af::const_ref<std::size_t>&) = &Predictor::operator();
 
     class_<Predictor>("StillsDeltaPsiReflectionPredictor", no_init)
-      .def(init<const boost::shared_ptr<BeamBase>,
+      .def(init<const std::shared_ptr<BeamBase>,
                 const Detector&,
                 mat3<double>,
                 const cctbx::uctbx::unit_cell&,
@@ -106,7 +107,7 @@ namespace dials { namespace algorithms { namespace boost_python {
       const af::const_ref<std::size_t>&) = &Predictor::operator();
 
     class_<Predictor>("NaveStillsReflectionPredictor", no_init)
-      .def(init<const boost::shared_ptr<BeamBase>,
+      .def(init<const std::shared_ptr<BeamBase>,
                 const Detector&,
                 mat3<double>,
                 const cctbx::uctbx::unit_cell&,
@@ -140,7 +141,7 @@ namespace dials { namespace algorithms { namespace boost_python {
       const af::const_ref<std::size_t>&) = &Predictor::operator();
 
     class_<Predictor>("SphericalRelpStillsReflectionPredictor", no_init)
-      .def(init<const boost::shared_ptr<BeamBase>,
+      .def(init<const std::shared_ptr<BeamBase>,
                 const Detector&,
                 mat3<double>,
                 const cctbx::uctbx::unit_cell&,

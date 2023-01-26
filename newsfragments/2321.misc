@@ -1,0 +1,1 @@
+Fix _snprintf definition-related error on windows builds.

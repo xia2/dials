@@ -8,6 +8,7 @@
  *  This code is distributed under the BSD license, a copy of which is
  *  included in the root directory of this package.
  */
+#include <memory>
 #include <boost/python.hpp>
 #include <boost/python/def.hpp>
 #include <dials/algorithms/background/helpers.h>
@@ -23,11 +24,8 @@ namespace dials { namespace algorithms { namespace background { namespace boost_
         (arg("reflections"), arg("value")));
 
     class_<RadialAverage>("RadialAverage", no_init)
-      .def(init<boost::shared_ptr<BeamBase>,
-                const Detector&,
-                double,
-                double,
-                std::size_t>())
+      .def(
+        init<std::shared_ptr<BeamBase>, const Detector&, double, double, std::size_t>())
       .def("add", &RadialAverage::add)
       .def("mean", &RadialAverage::mean)
       .def("weight", &RadialAverage::weight)

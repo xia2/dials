@@ -11,6 +11,7 @@
 #ifndef DIALS_ARRAY_FAMILY_REFLECTION_TABLE_H
 #define DIALS_ARRAY_FAMILY_REFLECTION_TABLE_H
 
+#include <memory>
 #include <dials/array_family/flex_table.h>
 #include <dials/model/data/shoebox.h>
 #include <scitbx/array_family/tiny_types.h>
@@ -80,18 +81,18 @@ namespace dials { namespace af {
 
     reflection_table()
         : flex_table<reflection_table_types>(),
-          experiment_identifiers_(boost::make_shared<experiment_map_type>()) {}
+          experiment_identifiers_(std::make_shared<experiment_map_type>()) {}
 
     reflection_table(size_type n)
         : flex_table<reflection_table_types>(n),
-          experiment_identifiers_(boost::make_shared<experiment_map_type>()) {}
+          experiment_identifiers_(std::make_shared<experiment_map_type>()) {}
 
-    boost::shared_ptr<experiment_map_type> experiment_identifiers() const {
+    std::shared_ptr<experiment_map_type> experiment_identifiers() const {
       return experiment_identifiers_;
     }
 
   protected:
-    boost::shared_ptr<experiment_map_type> experiment_identifiers_;
+    std::shared_ptr<experiment_map_type> experiment_identifiers_;
   };
 
   enum Flags {

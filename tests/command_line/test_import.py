@@ -593,7 +593,7 @@ def test_convert_stills_to_sequences(dials_data, tmp_path):
     JF16M = dials_data("lysozyme_JF16M_4img", pathlib=True)
     result = subprocess.run(
         [
-            "dials.import",
+            shutil.which("dials.import"),
             "convert_stills_to_sequences=True",
             JF16M / "lyso009a_0087.JF07T32V01_master_4img.h5",
             "output.experiments=experiments_as_seq.expt",
@@ -615,7 +615,7 @@ def test_convert_stills_to_sequences(dials_data, tmp_path):
     image_path = sacla_path / "SACLA-MPCCD-run266702-0-subset.h5"
     result = subprocess.run(
         [
-            "dials.import",
+            shutil.which("dials.import"),
             "convert_stills_to_sequences=True",
             image_path,
             "output.experiments=experiments_as_seq_sacla.expt",
@@ -640,7 +640,7 @@ def test_convert_stills_to_sequences(dials_data, tmp_path):
     ]  # just three images
     result = subprocess.run(
         [
-            "dials.import",
+            shutil.which("dials.import"),
             "convert_stills_to_sequences=True",
             image_path,
             "output.experiments=joint.expt",
@@ -670,7 +670,7 @@ def test_convert_stills_to_sequences_nonh5(dials_regression, tmp_path):
     assert image_path.is_file()
     result = subprocess.run(
         [
-            "dials.import",
+            shutil.which("dials.import"),
             "convert_stills_to_sequences=True",
             image_path,
             "output.experiments=lcls.expt",

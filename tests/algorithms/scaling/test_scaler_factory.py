@@ -101,24 +101,13 @@ def prf_sum_refl_to_filter():
     return reflections
 
 
-def test_refl_and_exp(mock_scaling_component, idval=0):
-    r = test_refl(idval=idval)
-    exp = mock_exp(mock_scaling_component, idval=idval)
-    return r, exp
-
-
-def test_refl_and_exp_list(mock_scaling_component, n=1):
+def generate_refls_expts(mock_scaling_component, n=1):
     rlist = []
     explist = []
     for i in range(n):
-        rlist.append(test_refl(idval=i))
+        rlist.append(generated_refl(idval=i))
         explist.append(mock_exp(mock_scaling_component, idval=i))
     return rlist, explist
-
-
-def test_refl(idval=0):
-    """Generate a test reflection table."""
-    return generated_refl(idval=idval)
 
 
 @pytest.fixture
@@ -225,13 +214,14 @@ def mock_experimentlist(mock_scaled_exp, mock_unscaled_exp):
 
 def test_SingleScalerFactory(generated_param, refl_to_filter, mock_scaling_component):
     """Test the single scaler factory."""
-    test_refl, exp = test_refl_and_exp(mock_scaling_component)
+    test_refls, expts = generate_refls_expts(mock_scaling_component)
     # Test that all required attributes get added with standard params.
     assert all(
-        (i not in test_refl) for i in ["inverse_scale_factor", "intensity", "variance"]
+        (i not in test_refls[0])
+        for i in ["inverse_scale_factor", "intensity", "variance"]
     )
     # Test default, (no split into free set)
-    ss = SingleScalerFactory.create(generated_param, exp, test_refl)
+    ss = SingleScalerFactory.create(generated_param, expts[0], test_refls[0])
     assert isinstance(ss, SingleScaler)
     assert all(
         i in ss.reflection_table
@@ -253,14 +243,14 @@ def test_SingleScalerFactory(generated_param, refl_to_filter, mock_scaling_compo
 def test_selection_of_profile_or_summation_intensities(
     generated_param, prf_sum_refl_to_filter, mock_scaling_component
 ):
-    _, exp = test_refl_and_exp(mock_scaling_component)
+    _, expts = generate_refls_expts(mock_scaling_component)
     # Test that all required attributes get added with standard params.
     assert all(
         (i not in prf_sum_refl_to_filter)
         for i in ["inverse_scale_factor", "intensity", "variance"]
     )
     # Test default, (no split into free set)
-    ss = SingleScalerFactory.create(generated_param, exp, prf_sum_refl_to_filter)
+    ss = SingleScalerFactory.create(generated_param, expts[0], prf_sum_refl_to_filter)
     assert isinstance(ss, SingleScaler)
     rt = ss.reflection_table
     assert all(i in rt for i in ["inverse_scale_factor", "intensity", "variance"])
@@ -278,7 +268,7 @@ def test_selection_of_profile_or_summation_intensities(
 def test_TargetScalerFactory(generated_param, mock_scaling_component):
     """Test the target scaler factory."""
 
-    refl_list, explist = test_refl_and_exp_list(mock_scaling_component, 3)
+    refl_list, explist = generate_refls_expts(mock_scaling_component, 3)
 
     # Test standard initialisation.
     assert generated_param.scaling_options.use_free_set is False  # just to check
@@ -305,7 +295,7 @@ def test_TargetScalerFactory(generated_param, mock_scaling_component):
     assert isinstance(target.single_scalers[0], NullScaler)
 
     # This time make one dataset bad, and check it gets removed
-    refl_list, explist = test_refl_and_exp_list(mock_scaling_component, 3)
+    refl_list, explist = generate_refls_expts(mock_scaling_component, 3)
     generated_param.scaling_options.reference = False
     refl_list[1].unset_flags(flex.bool(4, True), refl_list[1].flags.integrated_prf)
     refl_list[1].unset_flags(flex.bool(4, True), refl_list[1].flags.integrated_sum)
@@ -317,7 +307,7 @@ def test_TargetScalerFactory(generated_param, mock_scaling_component):
     assert set(target.single_scalers[0].reflection_table["id"]) == {0}
     assert set(target.unscaled_scalers[0].reflection_table["id"]) == {2}
 
-    refl_list, explist = test_refl_and_exp_list(mock_scaling_component, 3)
+    refl_list, explist = generate_refls_expts(mock_scaling_component, 3)
     refl_list[0].unset_flags(flex.bool(4, True), refl_list[0].flags.integrated_prf)
     refl_list[0].unset_flags(flex.bool(4, True), refl_list[0].flags.integrated_sum)
     explist[0].scaling_model.is_scaled = True
@@ -333,7 +323,7 @@ def test_TargetScalerFactory(generated_param, mock_scaling_component):
 def test_MultiScalerFactory(generated_param, mock_scaling_component, refl_list):
     """Test the MultiScalerFactory."""
 
-    refl_list, explist = test_refl_and_exp_list(mock_scaling_component, 3)
+    refl_list, explist = generate_refls_expts(mock_scaling_component, 3)
 
     multiscaler = MultiScalerFactory.create(generated_param, explist, refl_list)
     assert isinstance(multiscaler, MultiScaler)
@@ -362,11 +352,11 @@ def test_scaler_factory_helper_functions(
 ):
     """Test the helper functions."""
 
-    test_refl, exp = test_refl_and_exp(mock_scaling_component)
+    test_refls, expts = generate_refls_expts(mock_scaling_component)
 
     # Test create_scaler
     # Test case for single refl and exp
-    scaler = create_scaler(generated_param, [exp], [test_refl])
+    scaler = create_scaler(generated_param, expts, test_refls)
     assert isinstance(scaler, SingleScaler)
 
     # If none or allscaled

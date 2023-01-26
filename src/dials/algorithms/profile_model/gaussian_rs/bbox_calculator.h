@@ -11,8 +11,8 @@
 #ifndef DIALS_ALGORITHMS_PROFILE_MODEL_GAUSSIAN_RS_BBOX_CALCULATOR_H
 #define DIALS_ALGORITHMS_PROFILE_MODEL_GAUSSIAN_RS_BBOX_CALCULATOR_H
 
+#include <memory>
 #include <cmath>
-#include <boost/shared_ptr.hpp>
 #include <scitbx/constants.h>
 #include <scitbx/vec3.h>
 #include <scitbx/array_family/tiny_types.h>
@@ -357,7 +357,7 @@ namespace dials {
     /**
      * Add a bbox calculator to the list.
      */
-    void push_back(boost::shared_ptr<BBoxCalculatorIface> obj) {
+    void push_back(std::shared_ptr<BBoxCalculatorIface> obj) {
       compute_.push_back(obj);
     }
 
@@ -392,7 +392,7 @@ namespace dials {
     }
 
   private:
-    std::vector<boost::shared_ptr<BBoxCalculatorIface> > compute_;
+    std::vector<std::shared_ptr<BBoxCalculatorIface> > compute_;
   };
 
 }}}}  // namespace dials::algorithms::profile_model::gaussian_rs

@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import logging
 from io import StringIO
+from typing import Type
 
 import numpy as np
 from scipy.optimize import least_squares
@@ -14,6 +15,7 @@ from scipy.stats import norm
 
 from cctbx import uctbx
 from dxtbx import flumpy
+from iotbx.merging_statistics import dataset_statistics
 from libtbx.utils import Sorry
 from mmtbx.scaling import printed_output
 from mmtbx.scaling.absolute_scaling import expected_intensity, scattering_information
@@ -603,7 +605,10 @@ class ResolutionPlotsAndStats:
     """
 
     def __init__(
-        self, dataset_statistics, anomalous_dataset_statistics, is_centric=False
+        self,
+        dataset_statistics: Type[dataset_statistics],
+        anomalous_dataset_statistics: Type[dataset_statistics],
+        is_centric=False,
     ):
         self.dataset_statistics = dataset_statistics
         self.anomalous_dataset_statistics = anomalous_dataset_statistics
@@ -623,6 +628,59 @@ class ResolutionPlotsAndStats:
         d.update(self.completeness_plot())
         d.update(self.multiplicity_vs_resolution_plot())
         d.update(self.r_pim_plot())
+        d.update(self.additional_stats_plot())
+        return d
+
+    def additional_stats_plot(self):
+        d = {}
+        # 'binner' attribute only exists for ExtendedDatasetStatistics, make sure
+        # this function also works with regular iotbx dataset_statistics with this check.
+        if (
+            not hasattr(self.dataset_statistics, "binner")
+            or not self.dataset_statistics.binner
+        ):
+            return d
+        d_star_sq_bins = []
+        for bin in self.dataset_statistics.binner.range_used():
+            d_max_min = self.dataset_statistics.binner.bin_d_range(bin)
+            d_star_sq_bins.append(
+                0.5
+                * (
+                    uctbx.d_as_d_star_sq(d_max_min[0])
+                    + uctbx.d_as_d_star_sq(d_max_min[1])
+                )
+            )
+        d_star_sq_tickvals, d_star_sq_ticktext = d_star_sq_to_d_ticks(
+            d_star_sq_bins, nticks=5
+        )
+        if self.dataset_statistics.r_split:
+
+            d.update(
+                {
+                    "r_split": {
+                        "data": [
+                            {
+                                "x": d_star_sq_bins,  # d_star_sq
+                                "y": self.dataset_statistics.r_split_binned,
+                                "type": "scatter",
+                                "name": "R<sub>split</sub> vs resolution",
+                            }
+                        ],
+                        "layout": {
+                            "title": "R<sub>split</sub> vs resolution",
+                            "xaxis": {
+                                "title": "Resolution (Å)",
+                                "tickvals": d_star_sq_tickvals,
+                                "ticktext": d_star_sq_ticktext,
+                            },
+                            "yaxis": {
+                                "title": "R<sub>split</sub>",
+                                "rangemode": "tozero",
+                            },
+                        },
+                    }
+                }
+            )
         return d
 
     def cc_one_half_plot(self, method=None):
@@ -835,12 +893,19 @@ class ResolutionPlotsAndStats:
         ]
         if not self.is_centric:
             headers.append("CC<sub>ano</sub>")
+        r_split_vals = []
+        if (
+            hasattr(self.dataset_statistics, "r_split")
+            and self.dataset_statistics.r_split_binned
+        ):
+            headers.insert(-2, "R<sub>split</sub>")
+            r_split_vals = self.dataset_statistics.r_split_binned
         rows = []
 
         def safe_format(format_str, item):
             return format_str % item if item is not None else ""
 
-        for bin_stats in self.dataset_statistics.bins:
+        for i, bin_stats in enumerate(self.dataset_statistics.bins):
             row = [
                 f"{bin_stats.d_max:.2f} - {bin_stats.d_min:.2f}",
                 bin_stats.n_obs,
@@ -854,6 +919,8 @@ class ResolutionPlotsAndStats:
                 safe_format("%.3f", bin_stats.r_pim),
                 safe_format("%.3f", bin_stats.r_anom),
             ]
+            if r_split_vals:
+                row.append(f"{r_split_vals[i]:.3f}")
             if cc_half_method == "sigma_tau":
                 row.append(
                     "%.3f%s"
@@ -905,6 +972,16 @@ class ResolutionPlotsAndStats:
             ["R<sub>meas</sub>"] + [f"{s.r_meas:.3f}" for s in stats],
             ["R<sub>pim</sub>"] + [f"{s.r_pim:.3f}" for s in stats],
         ]
+        if (
+            hasattr(self.dataset_statistics, "r_split")
+            and self.dataset_statistics.r_split is not None
+        ):
+            rsplits = (
+                self.dataset_statistics.r_split,
+                self.dataset_statistics.r_split_binned[0],
+                self.dataset_statistics.r_split_binned[-1],
+            )
+            rows.append(["R<sub>split</sub>"] + [f"{rs:.3f}" for rs in rsplits])
 
         if cc_half_method == "sigma_tau":
             rows.append(
@@ -1255,6 +1332,9 @@ def cc_half_plot(
     d_min=None,
 ):
     d_star_sq_tickvals, d_star_sq_ticktext = d_star_sq_to_d_ticks(d_star_sq, nticks=5)
+    min_y = min([cc if cc is not None else 0 for cc in cc_half] + [0])
+    if cc_anom:
+        min_y = min([min_y, min([cc if cc is not None else 0 for cc in cc_anom])])
     return {
         "data": [
             {
@@ -1333,7 +1413,7 @@ def cc_half_plot(
             },
             "yaxis": {
                 "title": "CC<sub>½</sub>",
-                "range": [min(cc_half + cc_anom if cc_anom else [] + [0]), 1],
+                "range": [min_y, 1],
             },
         },
         "help": """\

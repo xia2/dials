@@ -147,7 +147,7 @@ def run(args=None):
             sub_expt = ExperimentList([experiments[i] for i in cluster.lattice_ids])
             expt_filename = experiments_template(index=j)
             print(
-                f"Saving {len(clusters)} lattices from cluster {j+1} to {expt_filename}"
+                f"Saving {len(sub_expt)} lattices from cluster {j+1} to {expt_filename}"
             )
             sub_expt.as_file(expt_filename)
             if reflections:

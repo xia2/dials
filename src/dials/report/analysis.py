@@ -194,6 +194,7 @@ formats = {
     "Rmeas(I+/-)": "%7.3f",
     "Rpim(I)": "%7.3f",
     "Rpim(I+/-)": "%7.3f",
+    "Rsplit(I)": "%7.3f",
     "CC half": "%7.3f",
     "Wilson B factor": "%7.3f",
     "Partial bias": "%7.3f",
@@ -285,6 +286,16 @@ def table_1_stats(
         "CC half": "cc_one_half",
         "Total unique": "n_uniq",
     }
+    extra_key_to_var = {}
+    if merging_statistics.r_split:
+        extra_key_to_var.update(
+            {
+                "Rsplit(I)": {
+                    "overall": "r_split",
+                    "binned": "r_split_binned",
+                }
+            }
+        )
 
     anom_key_to_var = {
         "Rmerge(I+/-)": "r_merge",
@@ -299,7 +310,9 @@ def table_1_stats(
 
     stats = {}
 
-    def generate_stats(d, r, s):
+    def generate_stats(d, r, s, e=None):
+        if e is None:
+            e = {}
         for key, value in d.items():
             if four_column_output:
                 values = (
@@ -318,8 +331,26 @@ def table_1_stats(
                 values = [v_ * 100 if v_ else None for v_ in values]
             if values[0] is not None:
                 stats[key] = values
+        for key, value in e.items():
+            if four_column_output:
+                values = (
+                    getattr(s, value["overall"]),
+                    getattr(s, value["binned"])[0],
+                    getattr(s, value["binned"])[-1],
+                    getattr(r, value["overall"]),
+                )
+            else:
+                values = (
+                    getattr(r, value["overall"]),
+                    getattr(r, value["binned"])[0],
+                    getattr(r, value["binned"])[-1],
+                )
+            if values[0] is not None:
+                stats[key] = values
 
-    generate_stats(key_to_var, merging_statistics, selected_statistics)
+    generate_stats(
+        key_to_var, merging_statistics, selected_statistics, extra_key_to_var
+    )
     if Wilson_B_iso:
         stats["Wilson B factor"] = [Wilson_B_iso]
 
@@ -354,12 +385,74 @@ def make_merging_statistics_summary(dataset_statistics):
     """Format merging statistics information into an output string."""
 
     text = "\n            ----------Merging statistics by resolution bin----------           \n\n"
-    text += (
-        " d_max  d_min   #obs  #uniq   mult.  %comp       <I>  <I/sI>"
-        + "    r_mrg   r_meas    r_pim   r_anom   cc1/2   cc_ano\n"
-    )
-    for bin_stats in dataset_statistics.bins:
-        text += bin_stats.format() + "\n"
-    text += dataset_statistics.overall.format() + "\n\n"
+    r_split_vals = []
 
-    return text
+    # 14/15 columns in table, need to know max size of the values string in each col to reformat
+    names = ["d_max", "d_min", "#obs", "#uniq", "mult.", f"{'%'}comp", "<I>"] + [
+        "<I/sI>",
+        "r_mrg",
+        "r_meas",
+        "r_pim",
+        "r_anom",
+        "cc1/2",
+        "cc_ano",
+    ]
+    if (
+        hasattr(dataset_statistics, "r_split")
+        and dataset_statistics.r_split is not None
+    ):
+        r_split_vals = list(dataset_statistics.r_split_binned) + [
+            dataset_statistics.r_split
+        ]
+        names.insert(-2, "r_splt")
+    n_headers = len(names)  # 14 or 15
+    vals = [[] for _ in range(n_headers)]
+    for i, stats in enumerate(
+        list(dataset_statistics.bins) + [dataset_statistics.overall]
+    ):
+        txt = stats.format().split()
+        if r_split_vals:
+            txt.insert(-2, f"{r_split_vals[i]:.3f}")
+            if len(txt) < n_headers:
+                txt.insert(-3, "0.000")  # handle null r_anom
+        else:
+            if len(txt) < n_headers:
+                txt.insert(-2, "0.000")  # handle null r_anom
+        assert len(txt) == n_headers, "Mismatch between number of headers and values"
+        for j, t in enumerate(txt):
+            vals[j].append(t)
+
+    max_lengths = [max(len(s) for s in col) for col in vals]
+    hasasterisk = [any("*" in v for v in col) for col in vals]
+    header = ""
+    min_separator = 2  # min whitespace between values in a colum
+
+    # First format the header, adjusting max length if necessary.
+    for i, (name, ml, hasaster) in enumerate(zip(names, max_lengths, hasasterisk)):
+        width_this = max(ml, len(name))  # longest of name or max value length
+        max_lengths[i] = width_this  # update in case name longer
+        if hasaster:  # i.e. if any of the values in the column have an asterisk
+            header += (
+                name.rjust(width_this + min_separator - 1) + " "
+            )  # align with last value not asterisk
+        else:
+            header += name.rjust(width_this + min_separator)
+
+    # Now write the values into the rows with correct separation
+    rows = ["" for _ in range(len(dataset_statistics.bins) + 1)]  # +1 for overall
+    for ml, col, hasaster in zip(max_lengths, vals, hasasterisk):
+        for i, value in enumerate(col):
+            if hasaster:  # i.e. if any of the values in the column have an asterisk
+                if "*" in value:
+                    rows[i] += value.rjust(ml + min_separator)
+                else:
+                    rows[i] += value.rjust(ml + min_separator - 1) + " "
+            else:
+                rows[i] += value.rjust(ml + min_separator)
+    rows.insert(0, header)
+    text = "\n".join(r for r in rows) + "\n\n"
+
+    return (
+        "\n            ----------Merging statistics by resolution bin----------           \n\n"
+        + text
+    )
