@@ -1,1 +1,0 @@
-Pin boost to 1.74 to avoid need for C++14, introduced in https://github.com/boostorg/geometry/issues/590.
