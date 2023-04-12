@@ -376,11 +376,11 @@ def export_mtz(params, experiments, reflections):
             "intensity.scale.variance" in reflection_table
         ):
             filename = "scaled.mtz"
-            logger.info("Data appears to be scaled, setting mtz.hklout = 'scaled.mtz'")
+            logger.info("Data appear to be scaled, setting mtz.hklout = 'scaled.mtz'")
         else:
             filename = "integrated.mtz"
             logger.info(
-                "Data appears to be unscaled, setting mtz.hklout = 'integrated.mtz'"
+                "Data appear to be unscaled, setting mtz.hklout = 'integrated.mtz'"
             )
 
     export_mtz(

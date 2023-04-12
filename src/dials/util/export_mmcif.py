@@ -50,12 +50,12 @@ class MMCIFOutputFile:
             ):
                 filename = "scaled.cif"
                 logger.info(
-                    "Data appears to be scaled, setting mmcif.hklout = 'scaled.cif'"
+                    "Data appear to be scaled, setting mmcif.hklout = 'scaled.cif'"
                 )
             else:
                 filename = "integrated.cif"
                 logger.info(
-                    "Data appears to be unscaled, setting mmcif.hklout = 'integrated.cif'"
+                    "Data appear to be unscaled, setting mmcif.hklout = 'integrated.cif'"
                 )
         else:
             filename = self.params.mmcif.hklout
