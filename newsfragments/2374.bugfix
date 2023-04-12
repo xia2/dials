@@ -1,1 +1,1 @@
-``dials.integrate``: modify ``exclude_images`` syntax to match other programs and deprecate the older form.
+``dials.integrate``: Update ``exclude_images=`` syntax to match ``dials.import`` and ``dials.find_spots``. The older form is now deprecated.

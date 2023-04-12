@@ -1,1 +1,1 @@
-Bugfix for dials.assign_experiment_identifiers to work with an experiment list without identifiers
+``dials.assign_experiment_identifiers`` now works with experiment lists without identifiers.

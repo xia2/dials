@@ -1,1 +1,1 @@
-Allow ``dials.rs_mapper`` to run for multi-panel detectors.
+``dials.rs_mapper``: Now works with multi-panel detectors.

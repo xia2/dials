@@ -1,1 +1,1 @@
-``dials.ssx_integrate``: Correctly set background and centroid algorithms for ellipsoid model.
+``dials.ssx_integrate``: Fix cases where the background and centroid algorithms choices were not being used with ellipsoid-model integration.

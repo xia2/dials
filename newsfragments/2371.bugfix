@@ -1,1 +1,1 @@
-Keep the experiment identifiers map when slicing a reflection table
+Slicing a ``reflection_table`` does not lose the experiment identifiers map.

@@ -1,1 +1,1 @@
-Correctly limit CPU cores when running in jobs allocated with the Slurm cluster scheduler.
+CPU allocation limits will now be correctly inherited from the Slurm cluster scheduler.

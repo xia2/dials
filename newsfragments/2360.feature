@@ -1,1 +1,1 @@
-``dials.export_bitmaps``: optionally display resolution rings
+``dials.export_bitmaps``: Option to render resolution rings.

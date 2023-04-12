@@ -1,1 +1,1 @@
-``dials.merge``: Save merged half datasets to the MTZ file when additional_stats=True
+``dials.merge``: Save merged half datasets to the MTZ file when ``additional_stats=True``.

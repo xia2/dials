@@ -1,1 +1,1 @@
-DIALS viewers: terminal output starting ``Gtk-Message`` is now suppressed.
+DIALS viewers: Suppress terminal output saying "``Gtk-Message``".

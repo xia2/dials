@@ -1,1 +1,1 @@
-``dials.merge``: Report suggested resolution limit based on fit to CC1/2.
+``dials.merge``: Now suggests a resolution limit, based on a fit to CC½.

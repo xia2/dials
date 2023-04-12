@@ -1,1 +1,1 @@
-``dials.rs_mapper``: fix bug in which the image data was accessed with indices that were out-of-bounds.
+``dials.rs_mapper``: Fix bug causing the image data to be accessed with out-of-bounds indices.

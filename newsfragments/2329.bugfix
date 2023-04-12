@@ -1,1 +1,1 @@
-``dials.generate_mask``: Fix a failure case where the direct beam intersects the centre of a pixel exactly.
+``dials.generate_mask``: Fix a failure when the direct beam intersected the exact centre of a pixel.

@@ -1,1 +1,1 @@
-``dials.symmetry``: bug fix when an experiment has no scan object
+``dials.symmetry``: Handle cases when an experiment has no scan object.
