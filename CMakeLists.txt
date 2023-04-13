@@ -9,6 +9,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 include(SetDefaultBuildRelWithDebInfo) # Default builds to release with debug info
 include(CoverageBuildConfiguration) # Custom module to make turning coverage on easy
 include(AlwaysColourCompilation) # Always show coloured compiler output
+include(CheckCXXSymbolExists)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # Generate compile_commands.json
 set(CMAKE_CXX_STANDARD 14)
@@ -26,8 +27,16 @@ find_package(Boost COMPONENTS thread "python${Python_VERSION_MAJOR}${Python_VERS
 # Create Boost::python alias so we don't need to carry the python version around
 if(NOT TARGET Boost::python)
     add_library(Boost::python INTERFACE IMPORTED)
-    set_target_properties(Boost::python PROPERTIES
-        INTERFACE_LINK_LIBRARIES  "python${Python_VERSION_MAJOR}${Python_VERSION_MINOR}" )
+    set_target_properties(Boost::python PROPERTIES INTERFACE_LINK_LIBRARIES Python::Module)
+endif()
+
+# Python 3.8 aliases snprintf and vsnprintf on windows. This causes failures on more
+# recent compilers. Check for this, and set the variable if the symbol is present.
+if(${Python_VERSION} VERSION_LESS "3.9" AND WIN32)
+    check_cxx_symbol_exists(snprintf cstdio HAVE_SNPRINTF)
+    if (HAVE_SNPRINTF)
+        target_compile_definitions(Python::Module INTERFACE HAVE_SNPRINTF)
+    endif()
 endif()
 
 # Put the libraries into lib/ so that we can run this in-place in a TBX install
