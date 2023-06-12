@@ -1,1 +1,1 @@
-Move some ``export_bitmaps`` code out of CLI script to new ``dials.util.export_bitmaps`` module.
+``export_bitmaps`` API code has been separated out of CLI script into the new ``dials.util.export_bitmaps`` module.

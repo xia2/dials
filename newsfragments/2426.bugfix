@@ -1,1 +1,1 @@
-``dials.integrate``: Fix multiprocessing on Windows with Python 3.11
+``dials.integrate``: Fix multiprocessing on Windows with Python 3.11.

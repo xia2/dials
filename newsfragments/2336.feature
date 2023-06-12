@@ -1,1 +1,1 @@
-``dials.refine``: perform refinement of independent groups of experiments separately. Refinement may not then produce identical output in that case, but results are believed to be of equivalent quality. The previous behaviour can be enforced using ``separate_independent_sets=False``.
+``dials.refine``: Independent groups of experiments are now refined separately by default. This may not then produce identical output, but results are believed to be of equivalent quality. The previous behaviour can be selected by using ``separate_independent_sets=False``.

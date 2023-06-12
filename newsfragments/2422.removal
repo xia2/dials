@@ -1,2 +1,1 @@
-``dials.find_spots``: remove ``force_2d`` option which did not apparently do
-anything useful.
+``dials.find_spots``: Remove ``force_2d=`` option, which did not work as expected.
