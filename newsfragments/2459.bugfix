@@ -1,0 +1,1 @@
+``dials.find_spots``: Restore `force_2d=` option. This was relied upon by downstream utilities.

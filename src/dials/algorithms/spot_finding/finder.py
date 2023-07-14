@@ -376,6 +376,7 @@ class ExtractSpots:
         min_spot_size=1,
         max_spot_size=20,
         filter_spots=None,
+        no_shoeboxes_2d=False,
         min_chunksize=50,
         write_hot_pixel_mask=False,
     ):
@@ -401,6 +402,7 @@ class ExtractSpots:
         self.min_spot_size = min_spot_size
         self.max_spot_size = max_spot_size
         self.filter_spots = filter_spots
+        self.no_shoeboxes_2d = no_shoeboxes_2d
         self.min_chunksize = min_chunksize
         self.write_hot_pixel_mask = write_hot_pixel_mask
 
@@ -411,7 +413,10 @@ class ExtractSpots:
         :param imageset: The imageset to process
         :return: The list of spot shoeboxes
         """
-        return self._find_spots(imageset)
+        if not self.no_shoeboxes_2d:
+            return self._find_spots(imageset)
+        else:
+            return self._find_spots_2d_no_shoeboxes(imageset)
 
     def _compute_chunksize(self, nimg, nproc, min_chunksize):
         """
@@ -527,6 +532,91 @@ class ExtractSpots:
             write_hot_pixel_mask=self.write_hot_pixel_mask,
         )
 
+    def _find_spots_2d_no_shoeboxes(self, imageset):
+        """
+        Find the spots in the imageset
+
+        :param imageset: The imageset to process
+        :return: The list of spot shoeboxes
+        """
+        # Change the number of processors if necessary
+        mp_nproc = self.mp_nproc
+        mp_njobs = self.mp_njobs
+        if mp_nproc * mp_njobs > len(imageset):
+            mp_nproc = min(mp_nproc, len(imageset))
+            mp_njobs = int(math.ceil(len(imageset) / mp_nproc))
+
+        mp_method = self.mp_method
+        mp_chunksize = self.mp_chunksize
+
+        if mp_chunksize == libtbx.Auto:
+            mp_chunksize = self._compute_chunksize(
+                len(imageset), mp_njobs * mp_nproc, self.min_chunksize
+            )
+            logger.info("Setting chunksize=%i", mp_chunksize)
+
+        len_by_nproc = int(math.floor(len(imageset) / (mp_njobs * mp_nproc)))
+        if mp_chunksize > len_by_nproc:
+            mp_chunksize = len_by_nproc
+        assert mp_nproc > 0, "Invalid number of processors"
+        assert mp_njobs > 0, "Invalid number of jobs"
+        assert mp_njobs == 1 or mp_method is not None, "Invalid cluster method"
+        assert mp_chunksize > 0, "Invalid chunk size"
+
+        # The extract pixels function
+        function = ExtractPixelsFromImage2DNoShoeboxes(
+            imageset=imageset,
+            threshold_function=self.threshold_function,
+            mask=self.mask,
+            max_strong_pixel_fraction=self.max_strong_pixel_fraction,
+            compute_mean_background=self.compute_mean_background,
+            region_of_interest=self.region_of_interest,
+            min_spot_size=self.min_spot_size,
+            max_spot_size=self.max_spot_size,
+            filter_spots=self.filter_spots,
+        )
+
+        # The indices to iterate over
+        indices = list(range(len(imageset)))
+
+        # The resulting reflections
+        reflections = flex.reflection_table()
+
+        # Do the processing
+        logger.info("Extracting strong spots from images")
+        if mp_njobs > 1:
+            logger.info(
+                " Using %s with %d parallel job(s) and %d processes per node\n",
+                mp_method,
+                mp_njobs,
+                mp_nproc,
+            )
+        else:
+            logger.info(" Using multiprocessing with %d parallel job(s)\n", mp_nproc)
+        if mp_nproc > 1 or mp_njobs > 1:
+
+            def process_output(result):
+                for message in result[1]:
+                    logger.log(message.levelno, message.msg)
+                reflections.extend(result[0][0])
+                result[0][0] = None
+
+            batch_multi_node_parallel_map(
+                func=ExtractSpotsParallelTask(function),
+                iterable=indices,
+                nproc=mp_nproc,
+                njobs=mp_njobs,
+                cluster_method=mp_method,
+                chunksize=mp_chunksize,
+                callback=process_output,
+            )
+        else:
+            for task in indices:
+                reflections.extend(function(task)[0])
+
+        # Return the reflections
+        return reflections, None
+
 
 class SpotFinder:
     """
@@ -551,6 +641,7 @@ class SpotFinder:
         hot_mask_prefix="hot_mask",
         min_spot_size=1,
         max_spot_size=20,
+        no_shoeboxes_2d=False,
         min_chunksize=50,
         is_stills=False,
     ):
@@ -581,6 +672,7 @@ class SpotFinder:
         self.mp_chunksize = mp_chunksize
         self.mp_nproc = mp_nproc
         self.mp_njobs = mp_njobs
+        self.no_shoeboxes_2d = no_shoeboxes_2d
         self.min_chunksize = min_chunksize
         self.is_stills = is_stills
 
@@ -686,6 +778,7 @@ class SpotFinder:
             min_spot_size=self.min_spot_size,
             max_spot_size=self.max_spot_size,
             filter_spots=self.filter_spots,
+            no_shoeboxes_2d=self.no_shoeboxes_2d,
             min_chunksize=self.min_chunksize,
             write_hot_pixel_mask=self.write_hot_mask,
         )
