@@ -1,1 +1,1 @@
-dials.ssx_integrate: Address issue with ellipsoid angular models - replaced with new correct r-dependent models.
+``dials.ssx_integrate``: Address issue with ellipsoid angular models by replacing with new, correct, r-dependent models.

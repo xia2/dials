@@ -1,1 +1,1 @@
-``dials.export``: add support for specifying a wavelength tolerance for exporting multi-wavelength data to mtz
+``dials.export``: You can now specifying a wavelength tolerance when exporting multi-wavelength data to mtz.

@@ -1,1 +1,1 @@
-``dials.reindex``: Fix crash for reindexing against a reference file when more than one input file
+``dials.reindex``: Fix crash reindexing against a reference file, for more than one input file.

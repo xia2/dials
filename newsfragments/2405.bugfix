@@ -1,1 +1,1 @@
-``dials.model_background``: Now works again for data sets that do not start from image "1".
+``dials.model_background``: Works again for data sets that do not start from image "1".

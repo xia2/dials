@@ -1,1 +1,1 @@
-``dials.scale``: by default, absorption correction is switched off if all scattering angles are such that cos(2ϑ) ~ 1
+``dials.scale``: Absorption correction is now switched off if all scattering angles are small (cos(2ϑ) ~ 1).

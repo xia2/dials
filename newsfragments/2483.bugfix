@@ -1,1 +1,1 @@
-``dials.reciprocal_lattice_viewer``: handle cases where a beam centre cannot be calculated, such as a detector with a high 2θ swing angle.
+``dials.reciprocal_lattice_viewer``: Handle cases where a beam centre cannot be calculated, such as a detector with a high 2θ swing angle.

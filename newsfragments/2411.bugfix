@@ -1,1 +1,1 @@
-Imageset slicing now uses 0-based indices. Previously, the slice had to be accessed with the original image indices.
+Updated DIALS to imageset slicing properly using 0-based indices. Previously, the slice had to be accessed with the original image indices.

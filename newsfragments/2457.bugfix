@@ -1,1 +1,1 @@
-``dials.index``: fail with a useful error message when there are too few spots for indexing.
+``dials.index``: Now fails with a useful error message when there are too few spots for indexing.

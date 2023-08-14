@@ -1,1 +1,1 @@
-``dials.combine_experiments``: Fix to not require reflection data
+``dials.combine_experiments``: No longer requires reflection data.

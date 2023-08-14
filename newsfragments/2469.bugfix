@@ -1,1 +1,1 @@
-``dials.import``: ensure manual geometry updates are only applied once to each model. This ensure ``invert_rotation_axis=True`` will only invert the rotation axis once.
+``dials.import``: Now ensures manual geometry updates are only applied once to each model. This ensures ``invert_rotation_axis=True`` will only invert the rotation axis once.

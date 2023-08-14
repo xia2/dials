@@ -1,1 +1,1 @@
-``dials.merge``: Add stereographic projections to html report if more than one experiment
+``dials.merge``: Added stereographic projections to the html report, if merging more than one experiment.

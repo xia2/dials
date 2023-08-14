@@ -1,0 +1,1 @@
+``dials.index``: ``indexing.refinement_protocol.mode=None`` now applies to both the scans and stills indexers.
