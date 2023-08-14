@@ -1,3 +1,12 @@
+DIALS 3.15.2 (2023-08-14)
+=========================
+
+Bugfixes
+--------
+
+- ``dials.find_spots``: Restore `force_2d=` option. This was relied upon by downstream utilities. (`#2459 <https://github.com/dials/dials/issues/2459>`_)
+
+
 DIALS 3.15.1 (2023-06-29)
 =========================
 
