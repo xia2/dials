@@ -1,0 +1,1 @@
+``dials.ssx_integrate``: Remove duplicate named parameter ``output.shoeboxes=`` that has no effect

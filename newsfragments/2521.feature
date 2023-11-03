@@ -1,0 +1,1 @@
+``dials.ssx_integrate``: Add ``max_cell_volume_change_fraction=`` parameter to catch highly divergent cell refinements

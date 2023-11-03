@@ -1,1 +1,1 @@
-``dials.ssx_integrate``: Fix bug in foreground mask calculation, affects datasets where wavelength is much bigger or smaller than 1.
+``dials.ssx_integrate``: Fix bug in foreground mask calculation, affects datasets where wavelength is much bigger or smaller than 1 Å.

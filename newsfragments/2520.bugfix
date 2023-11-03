@@ -1,1 +1,1 @@
-``dials.sequence_to_stills``: fix crash when operating on a scan that does not start at image 1.
+``dials.sequence_to_stills``: No longer crashes when operating on a scan that does not start at image 1.

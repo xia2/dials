@@ -1,1 +1,1 @@
-Remove circular dependencies between DIALS and ``cctbx.xfel`` by using the new ``serialtbx``.
+Circular dependencies have been removed between DIALS and ``cctbx.xfel`` by using the new ``serialtbx``.

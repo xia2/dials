@@ -1,1 +1,1 @@
-``dials.reflection_viewer``: Fix wxpython-related type error.
+``dials.reflection_viewer``: Fix a wsPython-related type error.

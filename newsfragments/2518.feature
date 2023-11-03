@@ -1,1 +1,1 @@
-``dials.ssx_integrate``: Allow setting of the mosaicity limit that is considered unphysically large, with mosaicity_max_limit option
+``dials.ssx_integrate``: Add ``mosaicity_max_limit=`` setting, to control what mosaicity limit is considered unphysically large.
