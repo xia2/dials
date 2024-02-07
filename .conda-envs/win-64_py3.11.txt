@@ -168,8 +168,7 @@ https://conda.anaconda.org/conda-forge/win-64/pycairo-1.25.1-py311h99894aa_0.con
 https://conda.anaconda.org/conda-forge/noarch/pyopenssl-23.3.0-pyhd8ed1ab_0.conda#7819533e674dbbc51468f3228b9b1bb6
 https://conda.anaconda.org/conda-forge/noarch/requests-2.31.0-pyhd8ed1ab_0.conda#a30144e4156cdbb236f99ebb49828f8b
 https://conda.anaconda.org/conda-forge/noarch/conda-package-handling-2.2.0-pyh38be061_0.conda#8a3ae7f6318376aa08ea753367bb7dd6
-https://conda.anaconda.org/conda-forge/noarch/dials-data-2.4.75-pyhd8ed1ab_0.conda#969b41309797ecc65f94ae030af7de14
-https://conda.anaconda.org/conda-forge/win-64/libcblas-3.9.0-19_win64_mkl.conda#1b9ede5cff953aa1a5f4d9f8ec644972
+https://conda.anaconda.org/conda-forge/noarch/dials-data-2.4.80-pyhd8ed1ab_0.conda#4887336fc8c3bfda8a0c0d5dbbb1718bhttps://conda.anaconda.org/conda-forge/win-64/libcblas-3.9.0-19_win64_mkl.conda#1b9ede5cff953aa1a5f4d9f8ec644972
 https://conda.anaconda.org/conda-forge/win-64/liblapack-3.9.0-19_win64_mkl.conda#574e6e8bcc85df2885eb2a87d31ae005
 https://conda.anaconda.org/conda-forge/noarch/rlpycairo-0.2.0-pyhd8ed1ab_0.conda#71d8c309e4e5c13d8f4113b5a394e633
 https://conda.anaconda.org/conda-forge/win-64/conda-23.9.0-py311h1ea47a8_2.conda#8bcd4ff907b0dfea576109ae2a162ee6
