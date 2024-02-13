@@ -672,6 +672,7 @@ class Script:
                             experiment.detector = imageset.get_detector()
                         else:
                             experiment.detector = copy.deepcopy(self.reference_detector)
+                            experiment.imageset.set_detector(experiment.detector, 0)
 
                     processor.process_experiments(tag, experiments)
                     imageset.clear_cache()

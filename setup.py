@@ -68,7 +68,8 @@ setup_kwargs = {
             "real_space_grid_search = dials.algorithms.indexing.basis_vector_search:RealSpaceGridSearch",
         ],
         "dials.index.lattice_search": [
-            "low_res_spot_match = dials.algorithms.indexing.lattice_search:LowResSpotMatch"
+            "low_res_spot_match = dials.algorithms.indexing.lattice_search:LowResSpotMatch",
+            "small_cell = dials.algorithms.indexing.lattice_search:SmallCell",
         ],
         "dials.integration.background": [
             "Auto = dials.extensions.auto_background_ext:AutoBackgroundExt",

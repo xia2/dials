@@ -16,9 +16,10 @@ from dials.algorithms.indexing import indexer
 from dials.algorithms.indexing.basis_vector_search import combinations, optimise
 
 from .low_res_spot_match import LowResSpotMatch
+from .small_cell import SmallCell
 from .strategy import Strategy
 
-__all__ = ["Strategy", "LowResSpotMatch"]
+__all__ = ["Strategy", "LowResSpotMatch", "SmallCell"]
 
 
 logger = logging.getLogger(__name__)
