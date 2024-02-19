@@ -175,8 +175,7 @@ https://conda.anaconda.org/conda-forge/osx-64/biopython-1.81-py310hb372a2b_1.con
 https://conda.anaconda.org/conda-forge/noarch/compiler-rt_osx-64-15.0.7-he1888fc_1.conda#e1f93ea86259a549f2dcbfd245bf0422
 https://conda.anaconda.org/conda-forge/noarch/conda-package-streaming-0.9.0-pyhd8ed1ab_0.conda#38253361efb303deead3eab39ae9269b
 https://conda.anaconda.org/conda-forge/osx-64/contourpy-1.1.1-py310h88cfcbd_1.conda#6c6bb230adc009e2db377450ca8e0433
-https://conda.anaconda.org/conda-forge/noarch/dials-data-2.4.75-pyhd8ed1ab_0.conda#969b41309797ecc65f94ae030af7de14
-https://conda.anaconda.org/conda-forge/osx-64/h5py-3.8.0-nompi_py310h5555e59_100.conda#14a3007607e01313e685ac4cc4fee69a
+https://conda.anaconda.org/conda-forge/noarch/dials-data-2.4.80-pyhd8ed1ab_0.conda#4887336fc8c3bfda8a0c0d5dbbb1718bhttps://conda.anaconda.org/conda-forge/osx-64/h5py-3.8.0-nompi_py310h5555e59_100.conda#14a3007607e01313e685ac4cc4fee69a
 https://conda.anaconda.org/conda-forge/osx-64/libboost-python-1.82.0-py310h92ebccd_6.conda#c8327dfe4712e0821e50d704d26198c9
 https://conda.anaconda.org/conda-forge/noarch/mrcfile-1.4.3-pyhd8ed1ab_0.tar.bz2#b6e5052c1cba799ee80e1b4d812c51e0
 https://conda.anaconda.org/conda-forge/osx-64/pandas-2.1.2-py310hdba192b_0.conda#82036b662ac55869e8aa672c4eac5604
