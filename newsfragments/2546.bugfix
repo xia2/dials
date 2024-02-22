@@ -1,1 +1,1 @@
-Always use configured environment when bootstrapping CCTBX. This fixes building on MacOS Sonoma; for which the default libtbx configuration fails.
+When building a new developer installation without CMake, always defer to environmental flags when configuring compilers. This fixes building on MacOS Sonoma; for which the default libtbx configuration failed.

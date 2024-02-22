@@ -1,1 +1,1 @@
-Reorganize imports in ``export_mtz.py`` so that its gemmi-less objects can be used by other gemmi-less software
+Reorganize imports in ``export_mtz.py`` so that its gemmi-less objects can be used by other gemmi-less software.

@@ -1,1 +1,1 @@
-``dials.index``: Add ``indexing.method=pink_indexer`` for still images based on Gevorkov Y, Barty A, Brehm W, White TA, Tolstikova A, Wiedorn MO, et al. pinkIndexer – a universal indexer for pink-beam X-ray and electron diffraction snapshots. Acta Cryst A. 2020 Mar 1;76(2):121–31. 
+``dials.index``: Add ``indexing.method=pink_indexer`` for still images, based on `Gevorkov Y et al. pinkIndexer – a universal indexer for pink-beam X-ray and electron diffraction snapshots <https://doi.org/10.1107/S2053273319015559>`_.

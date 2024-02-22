@@ -1,1 +1,1 @@
-``dials.export``: Unmerged MTZ output now uses gemmi, which fixes various issues (#1099, #1100, #2057, #2379, #2505)
+``dials.export``: Unmerged MTZ output now uses gemmi, fixing various longstanding issues.

@@ -1,1 +1,1 @@
-``dials.index``: Correctly output imageset id when joint_indexing=False and max_lattices>1
+``dials.index``: Correctly output imageset id when ``joint_indexing=False`` and ``max_lattices>1``
