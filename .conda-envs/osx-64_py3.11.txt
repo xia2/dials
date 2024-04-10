@@ -218,3 +218,4 @@ https://conda.anaconda.org/conda-forge/noarch/sphinxcontrib-htmlhelp-2.0.5-pyhd8
 https://conda.anaconda.org/conda-forge/noarch/sphinxcontrib-qthelp-1.0.7-pyhd8ed1ab_0.conda#26acae54b06f178681bfb551760f5dd1
 https://conda.anaconda.org/conda-forge/noarch/sphinx-7.2.6-pyhd8ed1ab_0.conda#bbfd1120d1824d2d073bc65935f0e4c0
 https://conda.anaconda.org/conda-forge/noarch/sphinxcontrib-serializinghtml-1.1.10-pyhd8ed1ab_0.conda#e507335cb4ca9cff4c3d0fa9cdab255e
+https://conda.anaconda.org/conda-forge/noarch/pyopengl-3.1.6-pyhd8ed1ab_1.tar.bz2#c968eb974b0fae4676e7a7858c4cc56e
