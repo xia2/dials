@@ -49,7 +49,7 @@ devnull = open(os.devnull, "wb")  # to redirect unwanted subprocess output
 allowed_ssh_connections = {}
 concurrent_git_connection_limit = threading.Semaphore(5)
 
-_prebuilt_cctbx_base = "2024"
+_prebuilt_cctbx_base = "__CCTBX_RELEASE__VERSION__"
 
 
 def make_executable(filepath):
