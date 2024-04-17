@@ -1,0 +1,1 @@
+API: ``array_family/flex_ext.py``: remove ``nthread``s parameter from ``extract_shoeboxes``, as it was never implemented.

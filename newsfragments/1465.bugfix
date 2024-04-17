@@ -1,1 +1,1 @@
-Add mesa-libgl CDT dependency when building cctbx. This should solve build problems on RHEL8 and other distributions more modern than RHEL7.
+Fix building on RHEL8 and other more recent distributions.

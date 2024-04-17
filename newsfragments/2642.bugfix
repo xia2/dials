@@ -1,1 +1,1 @@
-Fix error in propagation of partiality variance when scaling still data
+``dials.scale``: Fix error in propagation of partiality variance, when scaling still data.

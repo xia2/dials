@@ -1,1 +1,1 @@
-``dials.predict``: allow this command to work in the case that image data are not available.
+``dials.predict``: Allow usage when image data are not available.

@@ -1,3 +1,1 @@
-``dials.index``: Set joint indexing to be automatically defined by default:
-``True`` for rotation data, ``False`` for still shots. This default can be
-overridden by the user by explicit use of ``joint_indexing=``.
+``dials.index``: Joint indexing is automatically set on for rotation data, off for still data. This can be overridden by explicit use of ``joint_indexing=``.

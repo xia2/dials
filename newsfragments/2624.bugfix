@@ -1,1 +1,1 @@
-``dials.export`` ``format=shelx``: Increased precision of unit cell parameters and their estimated standard deviations written to ``.ins`` file 
+``dials.export`` ``format=shelx``: Increased precision of unit cell parameters and their estimated standard deviations written to ``.ins`` file.

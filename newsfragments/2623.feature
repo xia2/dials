@@ -1,1 +1,1 @@
-``dials.export``: Add option to specify composition of asymmetric unit for SHELX ``.ins`` file output.
+``dials.export``: Add option ``composition=`` to specify of asymmetric unit composition for SHELX ``.ins`` file output.
