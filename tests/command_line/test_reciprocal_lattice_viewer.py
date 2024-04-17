@@ -8,6 +8,5 @@ def test_gltbx_is_available():
     because they were not built earlier. This will reliably cause dials.rlv to
     fail even thought the build setup was apparently fine.
     """
-    import gltbx.gl
-
-    assert gltbx.gl.ext
+    import gltbx.fonts  # noqa: F401
+    import gltbx.gl  # noqa: F401

@@ -1,3 +1,18 @@
+DIALS 3.18.2 (2024-04-17)
+=========================
+
+Bugfixes
+--------
+
+- Added ``pyopengl`` dependency to avoid library issues on some platforms. (`#2443 <https://github.com/dials/dials/issues/2443>`_)
+
+
+Misc
+----
+
+- `#2648 <https://github.com/dials/dials/issues/2648>`_
+
+
 DIALS 3.18.1 (2024-03-26)
 =========================
 
