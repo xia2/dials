@@ -1,1 +1,0 @@
-Added ``pyopengl`` dependency to avoid library issues on some platforms.
