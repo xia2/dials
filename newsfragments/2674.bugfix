@@ -1,1 +1,1 @@
-``dials.cosym``: Fix to give more accurate cc calculation when running with a space_group set
+``dials.cosym``: Fix to give more accurate cc calculation when running with a ``space_group=`` set.

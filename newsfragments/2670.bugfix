@@ -1,1 +1,1 @@
-``dials.find_rotation_axis``: Add reflection selection criteria to avoid runs that use a very large amount of memory.
+``dials.find_rotation_axis``: Add reflection selection criteria, to avoid runs that use a very large amount of memory.

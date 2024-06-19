@@ -1,1 +1,1 @@
-``dials.cosym``: Add alternative weighting during cosym CC calculation
+``dials.cosym``: Add alternative weighting during cosym CC calculation with a new ``cc_weights=`` option.

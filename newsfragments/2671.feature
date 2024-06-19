@@ -1,1 +1,1 @@
-``dials.correlation_matrix``: Add tables with cluster information to html output
+``dials.correlation_matrix``: Add tables with cluster information to html output.

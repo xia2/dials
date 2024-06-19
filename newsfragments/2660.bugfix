@@ -1,1 +1,1 @@
-Fix `dials.show` beam checks for time of flight experiments.
+Fix ``dials.show`` beam checks for time of flight experiments.
