@@ -1,2 +1,1 @@
-``dials.merge``: Use gemmi to output merged MTZs for consistency with ``dials.export``
-
+``dials.merge``: Use GEMMI to output merged MTZs, for consistency with ``dials.export``

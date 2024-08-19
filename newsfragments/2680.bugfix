@@ -1,1 +1,1 @@
-``dials.index``: Fix a bug in the ``pink_indexer`` method that caused failures for images with electron diffraction geometry.
+``dials.index``: Fix a ``pink_indexer`` error that caused failures for images with electron diffraction geometry.

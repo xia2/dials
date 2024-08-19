@@ -1,2 +1,1 @@
-``dials.index``: Avoid mm to px conversion when the ``refinement_protocol``
-is set to do no refinement, as the required data are not available.
+``dials.index``: Avoid mm to px conversion when the ``refinement_protocol`` is set to do no refinement, as the required data are not available.

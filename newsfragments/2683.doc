@@ -1,0 +1,1 @@
+Docstrings and type hints are added to the ``reindex_experiments`` and ``reindex_reflections`` functions to make it easier to use these outside the ``dials.reindex`` program.

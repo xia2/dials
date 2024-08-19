@@ -1,3 +1,1 @@
-Performance improvement for selections from large reflection tables. For a
-table containing 165k experiment identifiers the speedup is 1000x (12 minutes
-per call).
+Performance improvement for selections from large reflection tables. For a table containing 165k experiment identifiers the speedup is 1000x (12 minutes per call).

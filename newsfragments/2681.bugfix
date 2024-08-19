@@ -1,1 +1,1 @@
-``dials.correlation_matrix``: Correctly select datasets for output json after filtering when used by multiplex. 
+``dials.correlation_matrix``: Correctly select datasets for output json after filtering, when used by multiplex.

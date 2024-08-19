@@ -1,1 +1,1 @@
-``dials.index``: Fix potential crash in max_cell estimation when all ice ring spots
+``dials.index``: Fix potential crash in max_cell estimation when all spots are at the resolution of ice rings.

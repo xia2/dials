@@ -1,1 +1,1 @@
-`dials.image_viewer`: Increase the maximum resolution for the ring tool radius. This was too small for new detectors.
+``dials.image_viewer``: Increase the maximum resolution for the ring tool radius. This was too small for new detectors.
