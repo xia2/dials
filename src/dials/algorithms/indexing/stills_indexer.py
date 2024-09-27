@@ -781,6 +781,9 @@ class StillsIndexer(Indexer):
         )
         ref_experiments = R.get_experiments()
 
+        acceptance_flags = flex.bool(reflections.size(), False)
+        acceptance_flags.set_selected(R.get_matches()["iobs"], True)
+
         nv = NaveParameters(
             params=self.all_params,
             experiments=ref_experiments,
@@ -789,6 +792,7 @@ class StillsIndexer(Indexer):
             graph_verbose=False,
         )
         nv()
+        acceptance_flags_nv1 = nv.nv_acceptance_flags
         rmsd, _ = calc_2D_rmsd_and_displacements(
             R.predict_for_reflection_table(reflections)
         )
@@ -810,6 +814,8 @@ class StillsIndexer(Indexer):
                 exp.crystal.set_half_mosaicity_deg(
                     self.all_params.indexing.stills.set_mosaic_half_deg_value
                 )
+
+        reflections = reflections.select(acceptance_flags_nv1 & acceptance_flags)
 
         return ref_experiments, reflections
 
