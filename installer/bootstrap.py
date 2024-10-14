@@ -1313,9 +1313,11 @@ be passed separately with quotes to avoid confusion (e.g
     )
 
     options = parser.parse_args()
-    if options.removed_cmake:
+    if options.removed_cmake or options.cmake:
         # User passed the obsolete parameter
-        sys.exit("Error: --cmake is now the default, please remove --cmake.")
+        sys.exit(
+            "Error: --cmake is now the default, please pass --libtbx for release builds."
+        )
 
     print("Performing actions:", " ".join(options.actions))
 
