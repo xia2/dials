@@ -1,1 +1,1 @@
-Make CMake the default build mode of bootstrap.
+Switch ``bootstrap.py`` to use CMake by default. You can pass ``--libtbx`` to get the previous behaviour, if you need to develop cctbx.

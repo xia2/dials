@@ -1,1 +1,1 @@
-Added time-of-flight Lorentz, spherical absorption, and normalisation w.r.t empty and incident run scaling corrections.
+Added scaling corrections for time-of-flight data.

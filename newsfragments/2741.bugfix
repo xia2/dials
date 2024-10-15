@@ -1,1 +1,1 @@
-``dials.cosym``: Handle the case of very few reflections leading to zero weights in weighted cosym analysis.
+``dials.cosym``: Handle the case of very few reflections, leading to zero weights in weighted cosym analysis.

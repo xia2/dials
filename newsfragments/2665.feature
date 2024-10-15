@@ -1,1 +1,0 @@
-``dials.find_spots``: add second implementation of signal mask erosion for documentation and clarify comments

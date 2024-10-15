@@ -1,1 +1,1 @@
-Fix reciprocal lattice viewer not working with polychromatic data due to call to beam.get_s0().
+``dials.reciprocal_lattice_viewer``: Fix errors when trying to view polychromatic data.

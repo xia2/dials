@@ -1,1 +1,1 @@
-Fixed stacking of masks and stacking of multiple experiments (e.g. stills) in dials.image_viewer (#1512, #2724)
+``dials.image_viewer``: Fixed stacking of masks, and stacking of multiple experiments.

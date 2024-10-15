@@ -1,1 +1,1 @@
-Allow combining masks using dials.generate_mask
+``dials.generate_mask``: Allow combining masks.

@@ -1,1 +1,1 @@
-Fix errors with loading polychromatic experiments into dials.geometry_viewer.
+``dials.geometry_viewer``: Fix errors when trying to view polychromatic experiments.

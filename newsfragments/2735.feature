@@ -1,1 +1,1 @@
-Implemented multi-panel polygon masking in dials.image_viewer
+``dials.image_viewer``: Added multi-panel polygon masking.

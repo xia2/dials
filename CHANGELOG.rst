@@ -1,3 +1,55 @@
+Dials 3.22.0 (2024-10-15)
+=========================
+
+Features
+--------
+
+- ``dials.find_spots``: add second implementation of signal mask erosion for documentation and clarify comments (`#2665 <https://github.com/dials/dials/issues/2665>`_)
+- Added time-of-flight Lorentz, spherical absorption, and normalisation w.r.t empty and incident run scaling corrections. (`#2704 <https://github.com/dials/dials/issues/2704>`_)
+- Allow combining masks using dials.generate_mask (`#2711 <https://github.com/dials/dials/issues/2711>`_)
+- Implemented multi-panel polygon masking in dials.image_viewer (`#2735 <https://github.com/dials/dials/issues/2735>`_)
+- ``dials.correlation_matrix``: Add dimension optimisation for intensity-based dataset clustering (`#2743 <https://github.com/dials/dials/issues/2743>`_)
+- ``dials.generate_distortion_maps``: Much faster map generation for ``mode=ellipse``. (`#2745 <https://github.com/dials/dials/issues/2745>`_)
+- Make CMake the default build mode of bootstrap. (`#2755 <https://github.com/dials/dials/issues/2755>`_)
+- ``dials.correlation_matrix``: Add auto-selection and output of significant clusters and extended graphs in html output (`#2770 <https://github.com/dials/dials/issues/2770>`_)
+
+
+Bugfixes
+--------
+
+- ``dials.index``: ensure reflections associated with removed experiments are reset to unindexed. (`#2653 <https://github.com/dials/dials/issues/2653>`_)
+- Enable radial_profile spot finding algorithm for polychromatic data by removing call to beam s0. (`#2729 <https://github.com/dials/dials/issues/2729>`_)
+- Fixed stacking of masks and stacking of multiple experiments (e.g. stills) in dials.image_viewer (#1512, #2724) (`#2730 <https://github.com/dials/dials/issues/2730>`_)
+- ``dials.image_viewer``: Fix UI glitches in masking tools. (`#2731 <https://github.com/dials/dials/issues/2731>`_)
+- ``dials.resolution_analysis``: Suppress output of potential scipy OptimizeWarning. (`#2737 <https://github.com/dials/dials/issues/2737>`_)
+- ``dials.generate_distortion_maps``: fix bug with ``mode=ellipse`` for detectors with oblong panels. (`#2740 <https://github.com/dials/dials/issues/2740>`_)
+- ``dials.cosym``: Handle the case of very few reflections leading to zero weights in weighted cosym analysis. (`#2741 <https://github.com/dials/dials/issues/2741>`_)
+- ``dials.find_spots_server``: fix multiprocessing to use fork on macOS and on all platforms (and needed for Python 3.14) (`#2747 <https://github.com/dials/dials/issues/2747>`_)
+- DIALS viewers: tweak size of UI elements. (`#2753 <https://github.com/dials/dials/issues/2753>`_)
+- ``dials.integrate``: Ensure the polarization correction is only performed for X-ray data (not electron nor neutron). (`#2754 <https://github.com/dials/dials/issues/2754>`_)
+- ``dials.image_viewer``: Fix broken "Save As" PNG functionality. (`#2759 <https://github.com/dials/dials/issues/2759>`_)
+- Ensure correct results from the ``determine_reindex_operator_against_reference``
+  function when the test and reference miller sets are the same object. (`#2761 <https://github.com/dials/dials/issues/2761>`_)
+- ``dials.index``: when indexing multiple imagesets, ensure a failure to
+  index one does not result in failure for all. (`#2764 <https://github.com/dials/dials/issues/2764>`_)
+- Fix beam.get_s0() errors when trying to use image viewer with polychromatic data. (`#2765 <https://github.com/dials/dials/issues/2765>`_)
+- Fix reciprocal lattice viewer not working with polychromatic data due to call to beam.get_s0(). (`#2766 <https://github.com/dials/dials/issues/2766>`_)
+- Fix errors with loading polychromatic experiments into dials.geometry_viewer. (`#2773 <https://github.com/dials/dials/issues/2773>`_)
+
+
+Deprecations and Removals
+-------------------------
+
+- ``bootstrap.py`` no longer accepts ``--prebuilt-cctbx``. This was only ever supported in CI. If you want to build a distribution with prebuilt cctbx, please use the ``--cmake`` flag and build instead. (`#2727 <https://github.com/dials/dials/issues/2727>`_)
+- ``dials.find_spots_server``: No longer supported in Windows. (`#2747 <https://github.com/dials/dials/issues/2747>`_)
+
+
+Misc
+----
+
+- `#2727 <https://github.com/dials/dials/issues/2727>`_, `#2736 <https://github.com/dials/dials/issues/2736>`_, `#2738 <https://github.com/dials/dials/issues/2738>`_, `#2742 <https://github.com/dials/dials/issues/2742>`_, `#2756 <https://github.com/dials/dials/issues/2756>`_, `#2767 <https://github.com/dials/dials/issues/2767>`_, `#2768 <https://github.com/dials/dials/issues/2768>`_
+
+
 DIALS 3.21.1 (2024-08-23)
 =========================
 

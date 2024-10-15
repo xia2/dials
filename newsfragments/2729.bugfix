@@ -1,1 +1,1 @@
-Enable radial_profile spot finding algorithm for polychromatic data by removing call to beam s0.
+``dials.find_spots``: Enable ``threshold.algorithm=radial_profile`` for polychromatic data.
