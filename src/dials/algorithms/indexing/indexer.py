@@ -540,7 +540,7 @@ class Indexer:
                     )
                     break
 
-            n_lattices_previous_cycle = len(experiments)
+            n_lattices_previous_cycle = len(experiments.crystals())
 
             if self.d_min is None:
                 self.d_min = self.params.refinement_protocol.d_min_start
@@ -574,7 +574,7 @@ class Indexer:
 
             if len(experiments) == 0:
                 raise DialsIndexError("No suitable lattice could be found.")
-            elif len(experiments) == n_lattices_previous_cycle:
+            elif len(experiments.crystals()) == n_lattices_previous_cycle:
                 logger.warning("No more suitable lattices could be found")
                 # no more lattices found
                 break
