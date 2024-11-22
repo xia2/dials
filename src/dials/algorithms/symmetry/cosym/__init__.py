@@ -84,7 +84,7 @@ use_curvatures = True
   .type = bool
   .short_caption = "Use curvatures"
 
-weights = count standard_error
+weights = *count standard_error
   .type = choice
   .short_caption = "Weights"
   .help = "If not None, a weights matrix is used in the cosym procedure."
