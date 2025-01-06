@@ -1,3 +1,14 @@
+DIALS 3.22.2 (2025-01-06)
+=========================
+
+Bugfixes
+--------
+
+- Fix symmetry not being applied consistently post indexing when multiple crystals and multiple orientations are present. (`#2786 <https://github.com/dials/dials/issues/2786>`_)
+- ``dials.image_viewer``: recover missing image scrollbar by increasing the panel height. (`#2795 <https://github.com/dials/dials/issues/2795>`_)
+- ``dials.cosym``: Fix weighting of cosym objective function, use count weights by default. (`#2813 <https://github.com/dials/dials/issues/2813>`_)
+
+
 DIALS 3.22.1 (2024-10-17)
 =========================
 

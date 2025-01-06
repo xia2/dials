@@ -1,1 +1,0 @@
-Fix symmetry not being applied consistently post indexing when multiple crystals and multiple orientations are present.
