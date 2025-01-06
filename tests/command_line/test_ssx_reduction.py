@@ -22,7 +22,7 @@ def test_ssx_reduction(dials_data, tmp_path):
     expts = ssx / "integrated.expt"
 
     result = subprocess.run(
-        [shutil.which("dials.cosym"), expts, refls],
+        [shutil.which("dials.cosym"), expts, refls, "partiality_threshold=0.25"],
         cwd=tmp_path,
         capture_output=True,
     )

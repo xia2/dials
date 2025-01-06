@@ -304,6 +304,8 @@ class Target:
         wij_matrix = None
 
         with concurrent.futures.ProcessPoolExecutor(max_workers=self._nproc) as pool:
+            # note we use weights=True to help us work out where we have calculated rij,
+            # even if the weights phil option is None
             futures = [
                 pool.submit(
                     _compute_rij_matrix_one_row_block,
@@ -331,7 +333,8 @@ class Target:
                         wij_matrix += wij
 
         rij_matrix = rij_matrix.toarray().astype(np.float64)
-        if wij_matrix is not None:
+        if self._weights:
+            ## use the counts as weights
             wij_matrix = wij_matrix.toarray().astype(np.float64)
             if self._weights == "standard_error":
                 # N.B. using effective n due to sigma weighting, which can be below 2
@@ -341,6 +344,20 @@ class Target:
                 se = np.sqrt((1 - np.square(rij_matrix[sel])) / (wij_matrix[sel] - 1))
                 wij_matrix = np.zeros_like(rij_matrix)
                 wij_matrix[sel] = 1 / se
+            # rescale the weights matrix such that the sum of wij_matrix == the number of non-zero entries
+            scale = np.count_nonzero(wij_matrix) / np.sum(wij_matrix)
+            wij_matrix *= scale
+        else:
+            ## No weights - i.e. equal weights in places where we can calculate an rij value,
+            ## but also making sure our diagonal elements are zero as we exclude the
+            ## self-correlation elements from rij and the cosym procedure - we need zero weights
+            ## for uncalculate correlations so they aren't taken into account in the functional
+            ## evaluation.
+            ## at this point, wij matrix contains neff values where it was possible to calculate
+            ## a pairwise correlation.
+            wij_matrix = wij_matrix.toarray().astype(np.float64)
+            sel = np.where(wij_matrix > 0)
+            wij_matrix[sel] = 1
 
         return rij_matrix, wij_matrix
 
@@ -421,23 +438,27 @@ class Target:
         # Cosym does not make use of the on-diagonal correlation coefficients
         np.fill_diagonal(rij, 0)
 
+        ## First, populate a weights matrix of the number of pairs i.e. counts
+        ## if we are not going to use weights, this helps us select where we
+        ## calculated values, so that we can set them to constant weights
+        wij = np.zeros_like(rij)
+        right_up = np.triu_indices_from(wij, k=1)
+
+        # For each correlation coefficient, set the weight equal to the size of
+        # the sample used to calculate that coefficient
+        pairwise_combos = itertools.combinations(np.isfinite(all_intensities), 2)
+
+        def sample_size(x, y):
+            pairs = np.count_nonzero(x & y)
+            if pairs < self._min_pairs:
+                return 0
+            else:
+                return pairs
+
+        wij[right_up] = list(itertools.starmap(sample_size, pairwise_combos))
+
         if self._weights:
-            wij = np.zeros_like(rij)
-            right_up = np.triu_indices_from(wij, k=1)
-
-            # For each correlation coefficient, set the weight equal to the size of
-            # the sample used to calculate that coefficient
-            pairwise_combos = itertools.combinations(np.isfinite(all_intensities), 2)
-
-            def sample_size(x, y):
-                pairs = np.count_nonzero(x & y)
-                if pairs < self._min_pairs:
-                    return 0
-                else:
-                    return pairs
-
-            wij[right_up] = list(itertools.starmap(sample_size, pairwise_combos))
-
+            ## the weights are currently the pairwise sample sizes
             if self._weights == "standard_error":
                 # Set each weights as the reciprocal of the standard error on the
                 # corresponding correlation coefficient
@@ -461,8 +482,17 @@ class Target:
                         f"Unable to calculate any correlations for dataset index {i} ({n_refl} reflections)."
                         + "\nIncreasing min_reflections may overcome this problem."
                     )
+            # rescale the weights matrix such that the sum of wij_matrix == the number of non-zero entries
+            scale = np.count_nonzero(wij) / np.sum(wij)
+            wij *= scale
         else:
-            wij = None
+            ## we are not going to use weights, so set them to constant weights
+            ## as we still needs zeros to avoid inclusion of uncalculate values in
+            ## the functional evaluation.
+            sel = np.where(wij > 0)
+            wij[sel] = 1
+            # Symmetrise the wij matrix
+            wij += wij.T
 
         return rij, wij
 

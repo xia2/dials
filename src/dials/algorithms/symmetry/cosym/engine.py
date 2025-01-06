@@ -99,9 +99,9 @@ def minimize_scitbx_lbfgs(
         max_iterations=max_iterations,
         max_calls=max_calls,
         traditional_convergence_test=True,
-        traditional_convergence_test_eps=1,
+        traditional_convergence_test_eps=0.001,
         drop_convergence_test_n_test_points=5,
-        drop_convergence_test_max_drop_eps=1.0e-5,
+        drop_convergence_test_max_drop_eps=1e-7,
         drop_convergence_test_iteration_coefficient=2,
     )
     result = lbfgs_with_curvs(

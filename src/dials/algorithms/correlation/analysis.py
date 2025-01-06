@@ -73,7 +73,7 @@ phil_overrides = phil_scope.fetch(
     source=iotbx.phil.parse(
         """\
 cc_weights=sigma
-weights=standard_error
+weights=count
 """
     )
 )
@@ -150,12 +150,6 @@ class CorrelationMatrix:
 
         self.params.lattice_group = self.datasets[0].space_group_info()
         self.params.space_group = self.datasets[0].space_group_info()
-
-        # If dimensions are optimised for clustering, need cc_weights=sigma
-        # Otherwise results end up being nonsensical even for high-quality data
-        # Outlier rejection was also found to be beneficial for optimising clustering dimensionality
-        if self.params.dimensions is Auto and self.params.cc_weights != "sigma":
-            raise ValueError("To optimise dimensions, cc_weights=sigma is required.")
 
         self.cosym_analysis = CosymAnalysis(self.datasets, self.params)
 
