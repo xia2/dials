@@ -1,1 +1,1 @@
-``dials.image_viewer``: do not allow integer controls to take values outside of their bounds.
+``dials.image_viewer``: Do not allow integer controls to take values outside of their bounds.

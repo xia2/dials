@@ -1,1 +1,1 @@
-``dials.integrate``: Allow command line option ``d_min=`` without requiring full qualification as ``prediction.d_min=``
+``dials.integrate``: Allow command line option ``d_min=`` without requiring full qualification as ``prediction.d_min=``.

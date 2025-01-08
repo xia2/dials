@@ -1,1 +1,1 @@
-``dials.refine_bravais_settings``: select only the reflections used in refinement in the indexing step for the calculation, to reduce memory footprint with very high resolution data refine_bravais_settings
+``dials.refine_bravais_settings``: Select only the reflections used in refinement in the indexing step for the calculation, to reduce memory footprint with very high resolution data.

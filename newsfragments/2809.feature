@@ -1,1 +1,1 @@
-Extend dials.search_beam_position function to include three new projection methods
+``dials.search_beam_position``: Include three new projection methods.

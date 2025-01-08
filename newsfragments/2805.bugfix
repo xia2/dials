@@ -1,1 +1,1 @@
-``dials.predict``: if no masker, cannot mask shadowed reflections
+``dials.predict``: Do not try to filter shadowed reflections, if no masker is provided.

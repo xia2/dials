@@ -1,1 +1,1 @@
-Fix beam.get_s0() errors when trying to use image viewer with polychromatic data.
+Fix ``beam.get_s0()`` errors when trying to use image viewer with polychromatic data.

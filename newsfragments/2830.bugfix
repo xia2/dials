@@ -1,1 +1,1 @@
-``dials.image_viewer``: Fix display bug with the trusted range mask when viewed stacked images.
+``dials.image_viewer``: Fix display bug with the trusted range mask, when viewing stacked images.

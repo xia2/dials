@@ -1,1 +1,1 @@
-Change logger statements in spot finding to use f-strings to ensure logger info is always printed correctly.
+Ensure logger info is always printed correctly in spot-finding.

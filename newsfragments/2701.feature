@@ -1,1 +1,1 @@
-Enable oversampling in dials.symmetry systematic_absences.method=fourier for screw-axis detection. 
+``dials.symmetry``: Enable oversampling in ``systematic_absences.method=fourier``, for screw-axis detection.

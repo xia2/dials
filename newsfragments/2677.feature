@@ -1,1 +1,1 @@
-Add h5 file format as option for storing reflection table data.
+Added initial support for a H5-based reflection table. This is turned off by default, but can be activated by setting the ``DIALS_USE_H5`` environment variable.

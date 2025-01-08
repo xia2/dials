@@ -1,1 +1,1 @@
-``dials.import``: add syntax for splitting a long scan into chunks e.g. for sequential data collections on small crystals. New syntax is either split=frames_per_block or split=start,end,frames_per_block, if you wish to specify the range, where start and end are 1-indexed
+``dials.import``: Add syntax for splitting a long scan into chunks e.g. for sequential data collections on small crystals. New syntax is either ``split=frames_per_block`` or ``split=start,end,frames_per_block``, if you wish to specify the range, where start and end are 1-indexed.
