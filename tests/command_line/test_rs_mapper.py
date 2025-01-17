@@ -15,6 +15,7 @@ def test_rs_mapper(dials_data, tmp_path):
     result = subprocess.run(
         [
             shutil.which("dials.rs_mapper"),
+            "nproc=1",
             dials_data("centroid_test_data", pathlib=True)
             / "imported_experiments.json",
             'map_file="junk.ccp4"',
@@ -45,6 +46,7 @@ def test_multi_panel(dials_data, tmp_path):
     result = subprocess.run(
         [
             shutil.which("dials.rs_mapper"),
+            "nproc=1",
             image,
             'map_file="junk.ccp4"',
         ],
@@ -78,7 +80,12 @@ def test_masked(dials_data, tmp_path):
         capture_output=True,
     )
     result = subprocess.run(
-        [shutil.which("dials.rs_mapper"), "imported.expt", "map_file=masked.ccp4"],
+        [
+            shutil.which("dials.rs_mapper"),
+            "nproc=1",
+            "imported.expt",
+            "map_file=masked.ccp4",
+        ],
         cwd=tmp_path,
         capture_output=True,
     )
@@ -89,6 +96,7 @@ def test_masked(dials_data, tmp_path):
     result = subprocess.run(
         [
             shutil.which("dials.rs_mapper"),
+            "nproc=1",
             "imported.expt",
             "map_file=unmasked.ccp4",
             "ignore_mask=True",
