@@ -10,7 +10,7 @@ import pytest
 
 from scitbx.array_family import flex
 
-
+@pytest.mark.skip(reason="Apparently causes SEGV on some platforms")
 @pytest.mark.skipif(
     (sys.platform == "darwin")
     and (datetime.date.today() < datetime.date(2023, 10, 20)),
