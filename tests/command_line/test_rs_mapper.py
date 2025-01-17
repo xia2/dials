@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import shutil
 import subprocess
 
@@ -9,6 +10,7 @@ from iotbx import ccp4_map
 from scitbx.array_family import flex
 
 
+@pytest.mark.skipif(os.name == "nt", reason="does not run on windows")
 def test_rs_mapper(dials_data, tmp_path):
     result = subprocess.run(
         [
@@ -65,6 +67,7 @@ def test_multi_panel(dials_data, tmp_path):
     assert flex.mean(m.data) == pytest.approx(0.05911629647016525, abs=1e-6)
 
 
+@pytest.mark.skipif(os.name == "nt", reason="does not run on windows")
 def test_masked(dials_data, tmp_path):
     subprocess.run(
         [
