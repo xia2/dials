@@ -1,0 +1,1 @@
+``dials.refine``: warn if trying to fix individual scan-varying parameters rather than crashing

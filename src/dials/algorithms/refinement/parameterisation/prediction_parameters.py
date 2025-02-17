@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from collections import namedtuple
 
 from scitbx import matrix, sparse
@@ -16,6 +17,8 @@ respect to the global parameters. A concrete version of this class is provided
 for scan-static reflection prediction for rotation data, where the predicted
 centroid is expressed as X, Y, phi. Other versions of the class are defined
 elsewhere."""
+
+logger = logging.getLogger(__name__)
 
 ParamSet = namedtuple(
     "ParamSet",
@@ -248,7 +251,12 @@ class PredictionParameterisation:
             elif set_fix:
                 current_fixes = model.get_fixed()
                 free_indices = [i for i, e in enumerate(current_fixes) if not e]
-                assert len(free_indices) == model.num_free()
+                if len(free_indices) != model.num_free():
+                    logger.warning(
+                        "Unable to fix parameters for parameterisation with prefix %s",
+                        model.model_identifier,
+                    )
+                    continue
                 for i, fix in zip(free_indices, tmp):
                     if fix:
                         current_fixes[i] = True
