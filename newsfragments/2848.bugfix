@@ -1,0 +1,1 @@
+``dials.find_spots``: fix the chunk size calculation to actually be correct rather than always leaving a little remainder.
