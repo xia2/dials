@@ -178,22 +178,27 @@ def test_synthetic_map_cell_issue(run_in_tmp_path):
         "output.reflections=symmetrized.refl",
         "output.html=cosym.html",
         "output.json=cosym.json",
+        "output.excluded=True",
     ]
 
     dials_cosym.run(args=args)
     assert pathlib.Path("symmetrized.refl").is_file()
     assert pathlib.Path("symmetrized.expt").is_file()
     expts = load.experiment_list("symmetrized.expt", check_format=False)
+    excl = load.experiment_list("excluded.expt", check_format=False)
     assert len(expts) == 3
+    assert len(excl) == 4
 
     # Increase the angle tolerance so that the cells are determined as similar
     # and can therefore be correctly mapped to the same cell setting.
     args.append("absolute_angle_tolerance=3.0")
+    args.append("excluded_prefix=excluded2")
     dials_cosym.run(args=args)
     assert pathlib.Path("symmetrized.refl").is_file()
     assert pathlib.Path("symmetrized.expt").is_file()
     assert pathlib.Path("cosym.html").is_file()
     assert pathlib.Path("cosym.json").is_file()
+    assert not pathlib.Path("excluded2.expt").is_file()  # Nothing excluded this time
     expts = load.experiment_list("symmetrized.expt", check_format=False)
     assert len(expts) == 7
 

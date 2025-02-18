@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import logging
 import random
 import sys
@@ -79,6 +80,10 @@ output {
   experiments = "symmetrized.expt"
     .type = path
   reflections = "symmetrized.refl"
+    .type = path
+  excluded = False
+    .type = bool
+  excluded_prefix = "excluded"
     .type = path
   json = dials.cosym.json
     .type = path
@@ -161,10 +166,38 @@ class cosym(Subject):
         if len(exclude):
             exclude_indices = [i for i, cb_op in enumerate(cb_ops) if not cb_op]
             logger.info(
-                f"Rejecting {len(exclude)} datasets from cosym analysis "
+                f"Excluding {len(exclude)} datasets from cosym analysis "
                 f"(couldn't determine consistent cb_op to minimum cell):\n"
                 f"dataset indices: {exclude_indices}",
             )
+
+            if self.params.output.excluded:
+                excluded_experiments = copy.deepcopy(self._experiments)
+                excluded_reflections = copy.deepcopy(self._reflections)
+                excluded_experiments, excluded_reflections = (
+                    select_datasets_on_identifiers(
+                        excluded_experiments, excluded_reflections, use_datasets=exclude
+                    )
+                )
+                logger.info(
+                    "Saving excluded experiments to %s",
+                    self.params.output.excluded_prefix + ".expt",
+                )
+                excluded_experiments.as_file(
+                    self.params.output.excluded_prefix + ".expt"
+                )
+                logger.info(
+                    "Saving excluded reflections to %s",
+                    self.params.output.excluded_prefix + ".refl",
+                )
+                joined = flex.reflection_table()
+                excluded_reflections = update_imageset_ids(
+                    excluded_experiments, excluded_reflections
+                )
+                for refl in excluded_reflections:
+                    joined.extend(refl)
+                joined.as_file(self.params.output.excluded_prefix + ".refl")
+
             self._experiments, self._reflections = select_datasets_on_identifiers(
                 self._experiments, self._reflections, exclude_datasets=exclude
             )
