@@ -11,11 +11,6 @@ from pathlib import Path
 import libtbx
 import libtbx.pkg_utils
 
-try:
-    import pkg_resources
-except ModuleNotFoundError:
-    pkg_resources = None
-
 # So that we can import DIALS within this script, work out where the
 # sources are and make them importable
 _src_path_root = str(Path(libtbx.env.dist_path("dials")).joinpath("src"))
@@ -117,10 +112,6 @@ def _install_setup_readonly_fallback(package_name: str):
     # if we do a full reconstruction of the working set
     if import_path not in sys.path:
         sys.path.insert(0, import_path)
-
-    # ...and add to the existing pkg_resources working_set
-    if pkg_resources:
-        pkg_resources.working_set.add_entry(import_path)
 
     # Add the src/ folder as an extra command_line_locations for dispatchers
     module = env.module_dict[package_name]

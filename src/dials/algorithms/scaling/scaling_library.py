@@ -11,6 +11,7 @@ ExperimentLists.
 
 from __future__ import annotations
 
+import importlib.metadata
 import logging
 import math
 from copy import deepcopy
@@ -18,7 +19,6 @@ from dataclasses import dataclass
 from unittest.mock import Mock
 
 import numpy as np
-import pkg_resources
 
 import iotbx.merging_statistics
 from cctbx import crystal, miller, uctbx
@@ -215,7 +215,9 @@ def create_scaling_model(params, experiments, reflections):
     # Determine non-auto model to use outside the loop over datasets.
     if not use_auto_model:
         model_class = None
-        for entry_point in pkg_resources.iter_entry_points("dxtbx.scaling_model_ext"):
+        for entry_point in importlib.metadata.entry_points(
+            group="dxtbx.scaling_model_ext"
+        ):
             if entry_point.name == params.model:
                 model_class = entry_point.load()
                 break

@@ -1,8 +1,7 @@
 from __future__ import annotations
 
+import importlib.metadata
 import sys
-
-import pkg_resources
 
 import dials.util
 
@@ -18,7 +17,7 @@ def read_entry_point(entry_point):
 
     :return: A dictionary of entry point plugins
     """
-    return {e.name: e for e in pkg_resources.iter_entry_points(entry_point)}
+    return {e.name: e for e in importlib.metadata.entry_points(group=entry_point)}
 
 
 def installation_is_valid():

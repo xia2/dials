@@ -1,11 +1,10 @@
 from __future__ import annotations
 
+import importlib.metadata
 import itertools
 import logging
 import math
 from io import StringIO
-
-import pkg_resources
 
 import libtbx.phil
 import scitbx.matrix
@@ -82,8 +81,8 @@ basis_vector_search_phil_scope = libtbx.phil.parse(basis_vector_search_phil_str)
 
 methods = []
 for entry_point in itertools.chain(
-    pkg_resources.iter_entry_points("dials.index.basis_vector_search"),
-    pkg_resources.iter_entry_points("dials.index.lattice_search"),
+    importlib.metadata.entry_points(group="dials.index.basis_vector_search"),
+    importlib.metadata.entry_points(group="dials.index.lattice_search"),
 ):
     ext_master_scope = libtbx.phil.parse(
         f"""
@@ -113,8 +112,8 @@ class LatticeSearch(indexer.Indexer):
         super().__init__(reflections, experiments, params)
 
         self._lattice_search_strategy = None
-        for entry_point in pkg_resources.iter_entry_points(
-            "dials.index.lattice_search"
+        for entry_point in importlib.metadata.entry_points(
+            group="dials.index.lattice_search"
         ):
             if entry_point.name == self.params.method:
                 strategy_class = entry_point.load()
@@ -296,8 +295,8 @@ class BasisVectorSearch(LatticeSearch):
         super().__init__(reflections, experiments, params)
 
         strategy_class = None
-        for entry_point in pkg_resources.iter_entry_points(
-            "dials.index.basis_vector_search"
+        for entry_point in importlib.metadata.entry_points(
+            group="dials.index.basis_vector_search"
         ):
             if entry_point.name == params.indexing.method:
                 strategy_class = entry_point.load()

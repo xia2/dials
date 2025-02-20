@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import pkg_resources
+import importlib.metadata
 
 
 class _Extension:
@@ -15,7 +15,7 @@ class _Extension:
         """Return a list of all registered extension classes."""
         return [
             entry_point.load()
-            for entry_point in pkg_resources.iter_entry_points(cls.entry_point)
+            for entry_point in importlib.metadata.entry_points(group=cls.entry_point)
         ]
 
     @classmethod
@@ -25,9 +25,9 @@ class _Extension:
         :param name: The name of the extension
         :returns: The extension class
         """
-        for entry_point in pkg_resources.iter_entry_points(cls.entry_point, name):
-            # if there are multiple entry points with the same name then just return the first
-            return entry_point.load()
+        for entry_point in importlib.metadata.entry_points(group=cls.entry_point):
+            if entry_point.name == name:
+                return entry_point.load()
 
     @classmethod
     def phil_scope(cls):
